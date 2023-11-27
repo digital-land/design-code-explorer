@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A prototype tool for to help users view design code data",
   "engines": {
-    "node": "21.x"
+    "node": "18.x"
   },
   "scripts": {
     "flask": "flask run",

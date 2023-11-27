@@ -1,16 +1,29 @@
 from application.extensions import db
 
 
-class DateModel(db.Model):
+class Entity(db.Model):
     __abstract__ = True
 
-    entry_date = db.Column(db.Date, default=db.func.current_date())
-    start_date = db.Column(db.Date)
-    end_date = db.Column(db.Date)
+    entity = db.Column(db.INTEGER, primary_key=True)
+    dataset = db.Column(db.TEXT)
+    json = db.Column(db.JSON)
+    name = db.Column(db.TEXT)
+    organisation_entity = db.Column(db.TEXT)
+    point = db.Column(db.TEXT)
+    prefix = db.Column(db.TEXT)
+    reference = db.Column(db.TEXT)
+    typology = db.Column(db.TEXT)
+    entry_date = db.Column(db.TEXT)
+    start_date = db.Column(db.TEXT)
+    end_date = db.Column(db.TEXT)
 
-    def as_dict(self):
-        return {
-            "entry-date": self.entry_date,
-            "start-date": self.start_date,
-            "end-date": self.end_date,
-        }
+
+class DesignCodes(Entity):
+    __tablename__ = "entity"
+
+
+class DesignCodeArea(Entity):
+    __bind_key__ = "design_code_area"
+    __tablename__ = "entity"
+
+    geometry = db.Column(db.TEXT)

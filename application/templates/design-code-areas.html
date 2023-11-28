@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{%- from "components/pagination/macro.jinja" import appPagination %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">Index of design code areas</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    {% include 'partials/search-facets.html' %}
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <div class="app-results-summary">
+      {% set count = design_code_areas|count %}
+      <h2 class="app-results-summary__title">Showing {{ count }} design code areas</h2>
+      <hr class="govuk-section-break--m">
+      <ul class="govuk-list">
+        {% for area in design_code_areas %}
+        <li class="govuk-!-margin-bottom-3">
+          <a href="{{url_for('base.design_code_area', entity=area.entity)}}"
+            class="govuk-link">{{area.reference}}</a>
+          <span class="govuk-!-font-size-16">- {{ area.name }}</span>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full"><span class="govuk-hint govuk-!-font-size-16">
+              {{ area.json["description"] }}</span>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% if count == 0 %}
+      <p class="govuk-body dl-secondary-text">No design code areas for this search.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -39,3 +39,4 @@ class DesignCodeArea(Entity):
     __tablename__ = "entity"
 
     geometry = db.Column(db.TEXT)
+    geojson = db.Column(db.JSON)

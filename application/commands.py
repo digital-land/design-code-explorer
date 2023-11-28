@@ -5,7 +5,7 @@ from flask.cli import AppGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from application.models import DesignCode, Organisation
+from application.models import DesignCode, DesignCodeArea, Organisation
 
 data_cli = AppGroup("data")
 
@@ -59,3 +59,21 @@ def load_org_db():
             print(f"Organisation {design_code.organisation_entity} already exists")
 
     print("Done loading organisation db")
+
+
+@data_cli.command("area-geojson")
+def get_area_geojson():
+    from application.extensions import db
+
+    geojson_url = "https://www.planning.data.gov.uk/entity/{entity}.geojson"
+    for area in DesignCodeArea.query.all():
+        url = geojson_url.format(entity=area.entity)
+        try:
+            resp = requests.get(url)
+            geojson = resp.json()
+            area.geojson = geojson
+            db.session.add(area)
+            db.session.commit()
+            print(f"Added geojson for {area.entity}")
+        except Exception:
+            print(f"Failed to add geojson for {area.entity}: url {url}")

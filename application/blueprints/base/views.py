@@ -73,9 +73,16 @@ def design_code_area(entity):
         DesignCode.reference == dca.json["design-code"]
     ).first()
     organisation = Organisation.query.get(dca.organisation_entity)
+    # in development plan geography we do coords, bounding_box = _get_centre_and_bounds(development_plan.geography)
+    # but this fails here because it doesn't have a 'features' key
+    # coords, bounding_box = _get_centre_and_bounds(dca)
+    coords = {"lat": 52.561928, "long": -1.464854}
+    bbox = []
     return render_template(
         "design-code-area.html",
         design_code_area=dca,
         organisation=organisation,
         design_code=design_code,
+        coords=coords,
+        bbox=bbox,
     )

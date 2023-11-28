@@ -50,7 +50,7 @@
     <section>
       <ul>
         {% for area in design_code_areas %}
-          <li><a href="{{url_for('base.design_code_area', entity=area.entity)}}">{{area.name}}</li></a>
+          <li><a href="{{url_for('base.design_code_area', entity=area.entity)}}">{{area}}</li></a>
         {% endfor %}
       </ul>
     </section>

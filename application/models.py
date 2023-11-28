@@ -1,6 +1,18 @@
 from application.extensions import db
 
 
+class Organisation(db.Model):
+    __bind_key__ = "organisation"
+    __tablename__ = "organisation"
+
+    organisation = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.TEXT)
+    prefix = db.Column(db.TEXT)
+    reference = db.Column(db.TEXT)
+    statistical_geography = db.Column(db.TEXT)
+    geojson = db.Column(db.JSON)
+
+
 class Entity(db.Model):
     __abstract__ = True
 

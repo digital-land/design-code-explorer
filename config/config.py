@@ -10,7 +10,8 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{PROJECT_ROOT}/data/design-code.sqlite3"
     SQLALCHEMY_BINDS = {
-        "design_code_area": f"sqlite:///{PROJECT_ROOT}/data/design-code-area.sqlite3"
+        "design_code_area": f"sqlite:///{PROJECT_ROOT}/data/design-code-area.sqlite3",
+        "organisation": f"sqlite:///{PROJECT_ROOT}/data/organisation.sqlite3",
     }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = False

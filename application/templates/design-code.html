@@ -85,10 +85,10 @@
       </header>
       <div class="app-summary-card__body">
       {%- if design_code_areas|length %}
-        <p class="govuk-body">The areas where this design code is applicable.</p>
+        <p class="govuk-body">This design code applies to the following areas.</p>
         {%- set map_id = "map-123" %}
         <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code_areas %}
-          {{ area['reference']}}
+          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=area.entity)}}">{{ area['reference']}}</a>{{ "" if loop.last else ', ' }}
         {% endfor %}
          </p>
         <div class="app-map-wrapper">
@@ -106,7 +106,7 @@
           }
         </script>
       {%- else %}
-        <p class="govuk-hint govuk-!-margin-bottom-0">No geography captured for this plan</p>
+        <p class="govuk-hint govuk-!-margin-bottom-0">There are currently no areas where this deisgn code is applied.</p>
       {% endif -%}
       </div>
     </section>

@@ -2,6 +2,11 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
 {%- from "components/pagination/macro.jinja" import appPagination %}
 
+{% block beforeContent %}
+{{ super() }}
+<a href="{{ url_for('base.index') }}" class="govuk-back-link">Back to index page</a>
+{% endblock beforeContent %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">

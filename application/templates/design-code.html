@@ -1,5 +1,12 @@
 {% extends 'layouts/base.html' %}
 
+{% block mapAssets %}
+{# overriding mapAssets from digital-land-frontend #}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+{% endblock %}
+
 {% block beforeContent %}
 {{ super() }}
 <a href="{{ url_for('base.index') }}" class="govuk-back-link">Back to design code list</a>
@@ -47,13 +54,6 @@
         </dl>
       </div>
     </section>
-    <section>
-      <ul>
-        {% for area in design_code_areas %}
-          <li><a href="{{url_for('base.design_code_area', entity=area.entity)}}">{{area}}</li></a>
-        {% endfor %}
-      </ul>
-    </section>
   </div>
   <div class="govuk-grid-column-one-third">
 
@@ -74,4 +74,57 @@
 
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card govuk-!-margin-top-6">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Design code areas
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+      {%- if design_code_areas|length %}
+        <p class="govuk-body">The areas where this design code is applicable.</p>
+        {%- set map_id = "map-123" %}
+        <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code_areas %}
+          {{ area['reference']}}
+        {% endfor %}
+         </p>
+        <div class="app-map-wrapper">
+          <div id="{{ map_id }}" style="height: 400px;">
+        </div>
+        <script>
+          const AppMap = {}
+          AppMap.mapID = '{{map_id}}';
+          AppMap.geography = {
+            'featureCollection': {{design_code_areas[0].geojson | tojson}},
+            'centrePoint': {
+              'lat': {{ coords["lat"] }},
+              'long': {{ coords["long"] }}
+            }
+          }
+        </script>
+      {%- else %}
+        <p class="govuk-hint govuk-!-margin-bottom-0">No geography captured for this plan</p>
+      {% endif -%}
+      </div>
+    </section>
+    <ul>
+      {% for area in design_code_areas %}
+        <li><a href="{{url_for('base.design_code_area', entity=area.entity)}}">{{area}}</li></a>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endblock content %}
+
+{% block pageScripts %}
+<script>
+  let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
+  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, {}).addTo(map)
+  //const bbox =
+  //map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
+</script>
+{% endblock pageScripts %}

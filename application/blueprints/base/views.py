@@ -1,8 +1,17 @@
+import geopandas as gpd
 from flask import Blueprint, render_template
 
 from application.models import DesignCode, DesignCodeArea, Organisation
 
 base = Blueprint("base", __name__)
+
+
+def _get_centre_and_bounds(geography):
+    if geography is not None:
+        gdf = gpd.GeoDataFrame.from_features(geography.geojson["features"])
+        bounding_box = list(gdf.total_bounds)
+        return {"lat": gdf.centroid.y[0], "long": gdf.centroid.x[0]}, bounding_box
+    return None, None
 
 
 @base.route("/")
@@ -39,11 +48,18 @@ def design_code(entity):
         for dca in DesignCodeArea.query.all()
         if dca.json is not None and dca.json["design-code"] == dc.reference
     ]
+    # TODO I'm not sure how to make the FeatureCollection or whatever I need to make to pass to this func
+    # in development plan it was a single geography whereas here is could be multiple
+    # coords, bounding_box = _get_centre_and_bounds(????)
+    coords = {"lat": 52.561928, "long": -1.464854}
+    bbox = []
     return render_template(
         "design-code.html",
         design_code=dc,
         organisation=organisation,
         design_code_areas=design_code_areas,
+        coords=coords,
+        bbox=bbox,
     )
 
 

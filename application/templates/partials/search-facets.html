@@ -9,16 +9,16 @@
   <!-- categoryfacet -->
   <div class="govuk-form-group">
     {% call dlFilterGroup({
-      "title": "Category",
+      "title": "Local authority",
       "is_open": True,
       "selected": 0
     }) %}
-    {% set pa_checked = request.args.getlist("category") %}
+    {% set pa_checked = request.args.getlist("organisations") %}
     <div class="govuk-checkboxes">
       <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" id="category-{category}" name="category" type="checkbox" value="some category" {% if "category" in pa_checked %}checked=checked{% endif %}>
-        <label class="govuk-label govuk-checkboxes__label" for="category-{category}">
-          Some category
+        <input class="govuk-checkboxes__input" id="organisation-{organisation}" name="organisation" type="checkbox" value="some category" {% if "organisation" in pa_checked %}checked=checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="organisation-{organisation}">
+          Some organisation
         </label>
       </div>
     </div>

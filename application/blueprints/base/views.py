@@ -6,9 +6,9 @@ from application.models import DesignCode, DesignCodeArea, Organisation
 base = Blueprint("base", __name__)
 
 
-def _get_centre_and_bounds(geography):
-    if geography is not None:
-        gdf = gpd.GeoDataFrame.from_features(geography.geojson["features"])
+def _get_centre_and_bounds(geojson):
+    if geojson is not None:
+        gdf = gpd.GeoDataFrame.from_features(geojson["features"])
         bounding_box = list(gdf.total_bounds)
         return {"lat": gdf.centroid.y[0], "long": gdf.centroid.x[0]}, bounding_box
     return None, None
@@ -48,18 +48,21 @@ def design_code(entity):
         for dca in DesignCodeArea.query.all()
         if dca.json is not None and dca.json["design-code"] == dc.reference
     ]
-    # TODO I'm not sure how to make the FeatureCollection or whatever I need to make to pass to this func
-    # in development plan it was a single geography whereas here is could be multiple
-    # coords, bounding_box = _get_centre_and_bounds(????)
-    coords = {"lat": 52.561928, "long": -1.464854}
-    bbox = []
+    geojson = {"type": "FeatureCollection", "features": []}
+    for feature in organisation.geojson["features"]:
+        geojson["features"].append(feature)
+    for area in design_code_areas:
+        geojson["features"].append(area.geojson)
+
+    coords, bounding_box = _get_centre_and_bounds(geojson)
     return render_template(
         "design-code.html",
         design_code=dc,
         organisation=organisation,
         design_code_areas=design_code_areas,
+        geojson=geojson,
         coords=coords,
-        bbox=bbox,
+        bounding_box=bounding_box,
     )
 
 

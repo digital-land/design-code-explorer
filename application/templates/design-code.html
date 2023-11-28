@@ -98,7 +98,7 @@
           const AppMap = {}
           AppMap.mapID = '{{map_id}}';
           AppMap.geography = {
-            'featureCollection': {{design_code_areas[0].geojson | tojson}},
+            'featureCollection': {{geojson | tojson}},
             'centrePoint': {
               'lat': {{ coords["lat"] }},
               'long': {{ coords["long"] }}
@@ -110,11 +110,6 @@
       {% endif -%}
       </div>
     </section>
-    <ul>
-      {% for area in design_code_areas %}
-        <li><a href="{{url_for('base.design_code_area', entity=area.entity)}}">{{area}}</li></a>
-      {% endfor %}
-    </ul>
   </div>
 </div>
 {% endblock content %}
@@ -124,7 +119,7 @@
   let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
   var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, {}).addTo(map)
-  //const bbox =
-  //map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
+  const bbox = {{ bounding_box | tojson }}
+  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
 </script>
 {% endblock pageScripts %}

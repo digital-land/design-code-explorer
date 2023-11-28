@@ -49,8 +49,11 @@ def design_code(entity):
         if dca.json is not None and dca.json["design-code"] == dc.reference
     ]
     geojson = {"type": "FeatureCollection", "features": []}
-    for feature in organisation.geojson["features"]:
-        geojson["features"].append(feature)
+
+    # if org boundary need uncomment this
+    # for feature in organisation.geojson["features"]:
+    #     geojson["features"].append(feature)
+
     for area in design_code_areas:
         geojson["features"].append(area.geojson)
 
@@ -73,16 +76,25 @@ def design_code_area(entity):
         DesignCode.reference == dca.json["design-code"]
     ).first()
     organisation = Organisation.query.get(dca.organisation_entity)
+
     # in development plan geography we do coords, bounding_box = _get_centre_and_bounds(development_plan.geography)
     # but this fails here because it doesn't have a 'features' key
     # coords, bounding_box = _get_centre_and_bounds(dca)
-    coords = {"lat": 52.561928, "long": -1.464854}
-    bbox = []
+
+    geojson = {"type": "FeatureCollection", "features": []}
+
+    # if org boundary need uncomment this
+    # for feature in organisation.geojson["features"]:
+    #     geojson["features"].append(feature)
+
+    geojson["features"].append(dca.geojson)
+    coords, bounding_box = _get_centre_and_bounds(geojson)
     return render_template(
         "design-code-area.html",
         design_code_area=dca,
         organisation=organisation,
         design_code=design_code,
+        geojson=geojson,
         coords=coords,
-        bbox=bbox,
+        bounding_box=bounding_box,
     )

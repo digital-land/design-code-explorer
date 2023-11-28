@@ -18,7 +18,7 @@ class Entity(db.Model):
     end_date = db.Column(db.TEXT)
 
 
-class DesignCodes(Entity):
+class DesignCode(Entity):
     __tablename__ = "entity"
 
 

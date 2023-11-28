@@ -1,0 +1,87 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+{{ super() }}
+<a href="{{ url_for('base.index') }}" class="govuk-back-link">Back to design code list</a>
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">Design code</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Design code record
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+        <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Reference</dt>
+            <dd class="govuk-summary-list__value">{{design_code.reference}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Name</dt>
+            <dd class="govuk-summary-list__value">{{design_code.name}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation</dt>
+            <!-- TODO need org list to set name of org here -->
+            <dd class="govuk-summary-list__value">{{design_code.organisation}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Design code status</dt>
+            <dd class="govuk-summary-list__value">{{design_code.json["design-code-status"]}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Documentation URL</dt>
+            <dd class="govuk-summary-list__value"><a
+                href="">{{design_code.json["document-url"]}}</a></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </div>
+  <div class="govuk-grid-column-one-third">
+
+    <div class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-0" id="view-the-data">
+        Linked data
+      </h2>
+      <p class="govuk-hint govuk-!-font-size-14">View linked data to this design code</p>
+      <nav role="navigation" aria-labelledby="view-the-data">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li>
+            <a class="govuk-link" href="#map">Map</a>
+          </li>
+          <li>
+            <a class="govuk-link" href="#documents">Supporting documents</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-0" id="view-the-data">
+        Download data
+      </h2>
+      <p class="govuk-hint govuk-!-font-size-14">You can download this record as</p>
+      <nav role="navigation" aria-labelledby="view-the-data">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li>
+            <a class="govuk-link"
+              href="#geojson">GeoJSON</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

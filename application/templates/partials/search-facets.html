@@ -1,0 +1,36 @@
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{% from 'components/filter-checkboxes/macro.jinja' import dlFilterCheckboxes %}
+{%- from "components/filter-group/macro.jinja" import dlFilterGroup %}
+
+<form action=" FIX THIS" class="govuk-form" method="GET">
+  <h3 class="govuk-heading-m">Filter</h3>
+
+
+  <!-- categoryfacet -->
+  <div class="govuk-form-group">
+    {% call dlFilterGroup({
+      "title": "Category",
+      "is_open": True,
+      "selected": 0
+    }) %}
+    {% set pa_checked = request.args.getlist("category") %}
+    <div class="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="category-{category}" name="category" type="checkbox" value="some category" {% if "category" in pa_checked %}checked=checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="category-{category}">
+          Some category
+        </label>
+      </div>
+    </div>
+    {% endcall %}
+  </div>
+
+
+  <div class="govuk-button-group">
+    {{ govukButton({
+      "text": "Filter"
+    }) }}
+    <a href="{{ search_form_url }}" class="govuk-link">Clear</a>
+  </div>
+
+</form>

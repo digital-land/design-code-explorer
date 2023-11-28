@@ -39,10 +39,10 @@
         <li class="govuk-!-margin-bottom-3">
           <a href="{{url_for('base.design_code', entity=design_code.entity)}}"
             class="govuk-link">{{design_code.reference}}</a>
-          <span class="govuk-!-font-size-16"></span>
+          <span class="govuk-!-font-size-16">- {{ design_code.name }}</span>
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full"><span class="govuk-hint govuk-!-font-size-16">
-              {{ design_code.json.description }}</span>
+              {{ design_code.json["description"] }}</span>
             </div>
           </div>
         </li>

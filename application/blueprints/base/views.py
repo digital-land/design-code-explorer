@@ -130,3 +130,22 @@ def design_code_area(entity):
         coords=coords,
         bounding_box=bounding_box,
     )
+
+
+@base.route("/map")
+def map():
+    design_code_areas = DesignCodeArea.query.all()
+    geojson = {"type": "FeatureCollection", "features": []}
+
+    for dca in design_code_areas:
+        geojson["features"].append(dca.geojson)
+
+    coords, bounding_box = _get_centre_and_bounds(geojson)
+
+    return render_template(
+        "map.html",
+        design_code_areas=design_code_areas,
+        geojson=geojson,
+        coords=coords,
+        bounding_box=bounding_box,
+    )

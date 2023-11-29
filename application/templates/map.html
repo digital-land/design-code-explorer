@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{%- from "components/pagination/macro.jinja" import appPagination %}
+
+{% block mapAssets %}
+  {# overriding mapAssets from digital-land-frontend #}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+{{ govukBreadcrumbs({
+    'items': [
+      {
+      'text': "Home",
+      'href': url_for('base.index')
+      },
+    ]
+  })
+}}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">Map of design code areas</h1>
+
+    <div class="app-map-wrapper">
+      <div id="mapid" style="height: 400px;">
+      </div>
+      <script>
+        const AppMap = {}
+        AppMap.mapID = 'mapid';
+        AppMap.geography = {
+          'featureCollection': {{ geojson | tojson }},
+          'centrePoint': {
+            'lat': {{ coords["lat"] }},
+            'long': {{ coords["long"] }}
+          }
+        }
+      </script>
+  </div>
+</div>
+<script>
+  colours = {
+    'HSG2 western parcel': { 'color': '#d73939' },
+    'HSG2 eastern parcel': { 'color': '#3988d7' },
+    'BL6': { 'color': '#44cccc' },
+    'BL7': { 'color': '#4488cc' },
+    'BL8': { 'color': '#cc4488' },
+    'BL9': { 'color': '#44cc44' },
+    'BL10': { 'color': '#8844cc' },
+  }
+
+  function onEachFeature(feature, layer) {
+    props = "<h3>Name: " + feature.properties["name"] + "</h3>"
+    props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] + "'>" + feature.properties["reference"] + "</a></p>"
+    layer.bindPopup(props)
+  }
+
+  function setStyle(feature) {
+    reference = feature.properties["reference"]
+    if (reference in colours) {
+      return { "color": colours[reference].color };
+    }
+  }
+
+  let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
+  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, { onEachFeature: onEachFeature, style: setStyle }).addTo(map)
+  const bbox = {{ bounding_box | tojson }}
+  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
+</script>
+{% endblock content %}

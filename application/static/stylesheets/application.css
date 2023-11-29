@@ -7452,6 +7452,8 @@
     @media (min-width: 48.0625em) {
       .app-summary-card .app-summary-card__footer {
         align-items: start; } }
+    .app-summary-card .app-summary-card__footer p:last-child {
+      margin-bottom: 0; }
   .app-summary-card .app-summary-card__title {
     font-family: "GDS Transport", arial, sans-serif;
     -webkit-font-smoothing: antialiased;

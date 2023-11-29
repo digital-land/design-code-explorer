@@ -40,7 +40,7 @@
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation</dt>
             <dd class="govuk-summary-list__value">
-              <a href="https://www.planning.data.gov.uk/entity/{{organisation.organisation}}">{{ organisation.name }}</a></dd>
+              <a class="govuk-link" href="https://www.planning.data.gov.uk/entity/{{organisation.organisation}}">{{ organisation.name }}</a></dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Design code status</dt>
@@ -48,10 +48,13 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Documentation URL</dt>
-            <dd class="govuk-summary-list__value"><a
+            <dd class="govuk-summary-list__value"><a class="govuk-link"
                 href="{{design_code.json["document-url"]}}">{{design_code.json["document-url"]}}</a></dd>
           </div>
         </dl>
+      </div>
+      <div class="app-summary-card__footer">
+        <p class="govuk-body govuk-!-font-size-14">Entity <a href="https://www.planning.data.gov.uk/entity/{{ design_code['entity'] }}" class="govuk-link">{{ design_code['entity'] }}</a> from <a href="https://www.planning.data.gov.uk/" class="govuk-link govuk-link--text-colour">planning.data.gov.uk</a>.</p>
       </div>
     </section>
   </div>

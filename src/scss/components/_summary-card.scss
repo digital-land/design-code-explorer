@@ -23,6 +23,10 @@
       // justify-content: space-between;
       align-items: start;
     }
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .app-summary-card__title {

@@ -61,7 +61,7 @@
             <dd class="govuk-summary-list__value">{{design_code.json["design-code-status"]}}</dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Documentation URL</dt>
+            <dt class="govuk-summary-list__key">Document URL</dt>
             <dd class="govuk-summary-list__value"><a class="govuk-link"
                 href="{{design_code.json["document-url"]}}">{{design_code.json["document-url"]}}</a></dd>
           </div>
@@ -133,9 +133,32 @@
 
 {% block pageScripts %}
 <script>
+  colours = {
+      'HSG2 western parcel': { 'color': '#d73939' },
+      'HSG2 eastern parcel': { 'color': '#3988d7' },
+      'BL6': { 'color': '#44cccc' },
+      'BL7': { 'color': '#4488cc' },
+      'BL8': { 'color': '#cc4488' },
+      'BL9': { 'color': '#44cc44' },
+      'BL10': { 'color': '#8844cc' },
+    }
+
+    function onEachFeature(feature, layer) {
+      props = "<h3>Name: " + feature.properties["name"] + "</h3>"
+      props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] +"'>" + feature.properties["reference"]+"</a></p>"
+      layer.bindPopup(props)
+    }
+
+    function setStyle(feature) {
+      reference = feature.properties["reference"]
+      if (reference in colours) {
+        return { "color": colours[reference].color };
+      }
+    }
+
   let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
-  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, {}).addTo(map)
+  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, { onEachFeature: onEachFeature, style: setStyle}).addTo(map)
   const bbox = {{ bounding_box | tojson }}
   map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
 </script>

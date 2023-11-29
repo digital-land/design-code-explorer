@@ -9,7 +9,21 @@
 
 {% block beforeContent %}
 {{ super() }}
-<a href="{{ url_for('base.design_codes') }}" class="govuk-back-link">Back to design code list</a>
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': url_for('base.index')
+    },
+    {
+      'text': "Design code",
+      'href': url_for('base.design_codes')
+    },
+    {
+      'text': design_code['reference']
+    }
+  ]
+}) }}
 {% endblock beforeContent %}
 
 {% block content %}

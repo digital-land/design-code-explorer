@@ -115,6 +115,26 @@
 
   </div>
 </div>
+
+{% if design_code %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card govuk-!-margin-top-6">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Applicable design code(s)
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+        <p class="govuk-body">The following design codes apply to this area:</p>
+        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+          <li><a href="{{url_for('base.design_code', entity=design_code.entity)}}" class="govuk-link">{{ design_code['reference'] }}</a> - {{ design_code['name'] }}</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+{% endif %}
 {% endblock content %}
 
 {% block pageScripts %}

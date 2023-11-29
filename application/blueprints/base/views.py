@@ -57,7 +57,7 @@ def design_code_areas():
         filter_condition = DesignCodeArea.organisation_entity.in_(selected_org_entities)
         dcas = DesignCodeArea.query.filter(filter_condition).all()
     else:
-        dcas = DesignCode.query.all()
+        dcas = DesignCodeArea.query.all()
 
     return render_template(
         "design-code-areas.html",
@@ -76,16 +76,20 @@ def design_code(entity):
         for dca in DesignCodeArea.query.all()
         if dca.json is not None and dca.json["design-code"] == dc.reference
     ]
-    geojson = {"type": "FeatureCollection", "features": []}
+    if design_code_areas:
+        geojson = {"type": "FeatureCollection", "features": []}
 
-    # if org boundary need uncomment this
-    # for feature in organisation.geojson["features"]:
-    #     geojson["features"].append(feature)
+        # if org boundary need uncomment this
+        # for feature in organisation.geojson["features"]:
+        #     geojson["features"].append(feature)
 
-    for area in design_code_areas:
-        geojson["features"].append(area.geojson)
+        for area in design_code_areas:
+            geojson["features"].append(area.geojson)
 
-    coords, bounding_box = _get_centre_and_bounds(geojson)
+        coords, bounding_box = _get_centre_and_bounds(geojson)
+    else:
+        geojson, coords, bounding_box = None, None, None
+
     return render_template(
         "design-code.html",
         design_code=dc,

@@ -1,5 +1,5 @@
 import geopandas as gpd
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, url_for
 
 from application.models import DesignCode, DesignCodeArea, Organisation
 
@@ -21,21 +21,49 @@ def index():
 
 @base.route("/design-codes")
 def design_codes():
-    dcs = DesignCode.query.all()
     organisations = Organisation.query.all()
+
+    if "organisation" in request.args:
+        selection = request.args.getlist("organisation")
+        orgs = [
+            Organisation.query.filter(Organisation.reference == ref).first()
+            for ref in selection
+        ]
+        selected_org_entities = [org.organisation for org in orgs]
+        filter_condition = DesignCode.organisation_entity.in_(selected_org_entities)
+        dcs = DesignCode.query.filter(filter_condition).all()
+    else:
+        dcs = DesignCode.query.all()
+
     return render_template(
-        "design-codes.html", design_codes=dcs, organisations=organisations
+        "design-codes.html",
+        design_codes=dcs,
+        organisations=organisations,
+        filter_url=url_for("base.design_codes"),
     )
 
 
 @base.route("/design-code-areas")
 def design_code_areas():
-    dcas = DesignCodeArea.query.all()
     organisations = Organisation.query.all()
+
+    if "organisation" in request.args:
+        selection = request.args.getlist("organisation")
+        orgs = [
+            Organisation.query.filter(Organisation.reference == ref).first()
+            for ref in selection
+        ]
+        selected_org_entities = [org.organisation for org in orgs]
+        filter_condition = DesignCodeArea.organisation_entity.in_(selected_org_entities)
+        dcas = DesignCodeArea.query.filter(filter_condition).all()
+    else:
+        dcas = DesignCode.query.all()
+
     return render_template(
         "design-code-areas.html",
         design_code_areas=dcas,
         organisations=organisations,
+        filter_url=url_for("base.design_code_areas"),
     )
 
 

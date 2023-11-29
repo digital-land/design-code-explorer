@@ -2,9 +2,8 @@
 {% from 'components/filter-checkboxes/macro.jinja' import dlFilterCheckboxes %}
 {%- from "components/filter-group/macro.jinja" import dlFilterGroup %}
 
-<form action=" FIX THIS" class="govuk-form" method="GET">
-  <h3 class="govuk-heading-m">Filter</h3>
-
+<form action="{{ filter_url }}" class="govuk-form" method="GET">
+  <h3 class="govuk-heading-s">Filter</h3>
 
   <!-- categoryfacet -->
   <div class="govuk-form-group">
@@ -13,14 +12,16 @@
       "is_open": True,
       "selected": 0
     }) %}
-    {% set pa_checked = request.args.getlist("organisations") %}
+    {% set pa_checked = request.args.getlist("organisation") %}
     <div class="govuk-checkboxes">
+      {% for org in organisations %}
       <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" id="organisation-{organisation}" name="organisation" type="checkbox" value="some category" {% if "organisation" in pa_checked %}checked=checked{% endif %}>
-        <label class="govuk-label govuk-checkboxes__label" for="organisation-{organisation}">
-          Some organisation
+        <input class="govuk-checkboxes__input" id="organisation-{{ org['reference'] }}" name="organisation" type="checkbox" value="{{ org['reference'] }}" {% if org['reference'] in pa_checked %}checked=checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="organisation-{{ org['reference'] }}">
+          {{ org['name'] }}
         </label>
       </div>
+      {% endfor %}
     </div>
     {% endcall %}
   </div>
@@ -30,7 +31,7 @@
     {{ govukButton({
       "text": "Filter"
     }) }}
-    <a href="{{ search_form_url }}" class="govuk-link">Clear</a>
+    <a href="{{ filter_url }}" class="govuk-link">Clear</a>
   </div>
 
 </form>

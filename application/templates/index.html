@@ -5,12 +5,51 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-xl">Design codes &amp; areas</h1>
+    <h1 class="govuk-heading-xl">A design code library</h1>
+
+    <p class="govuk-body">This prototype is intended to show how data found on the
+    <a href="https://www.planning.data.gov.uk/" class="govuk-link">Planning Data Platform</a>
+    can be easily presented in different ways on other websites, maps and services,
+    such as a <a href="https://www.gov.uk/guidance/design-code-library" class="govuk-link">design code libary</a> curated by the
+    <a href="https://www.gov.uk/government/organisations/office-for-place" class="govuk-link">Office for Place</a>.</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li><a href="{{ url_for('base.design_codes') }}" class="govuk-link">Design code library</a></li>
       <li><a href="{{ url_for('base.design_code_areas') }}" class="govuk-link">Design code areas</a></li>
       <li><a href="{{ url_for('base.map') }}" class="govuk-link">Map of design code areas</a></li>
+    </ul>
+
+    <h2 class="govuk-heading-l">Data standard<h2>
+
+    <p class="govuk-body">We are currently developing a data standard to help local planning authorities
+    to list their design codes in a way which allows them to be easily collected into national datasets.</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://digital-land.github.io/data-standards/what-we-are-working-on/planning-consideration/design-codes/" class="govuk-link">Planning consideration</a></li>
+      <li><a href="https://digital-land.github.io/specification/specification/design-code/" class="govuk-link">Draft specification</a></li>
+      <li><a href="https://github.com/digital-land/data-standards-backlog/discussions/27" class="govuk-link">Discussion</a></li>
+    </ul>
+
+
+    <h2 class="govuk-heading-l">Data</h2>
+
+    <p class="govuk-body">This prototype uses data we gathered to help test the proposed data standard and which can be found on the
+    <a href="https://www.planning.data.gov.uk/" class="govuk-link">Planning Data Platform</a>:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://www.planning.data.gov.uk/entity/?dataset=design-code" class="govuk-link">List of design codes</a></li>
+      <li><a href="https://www.planning.data.gov.uk/entity/?dataset=design-code-area" class="govuk-link">List of design code areas</a></li>
+      <li><a href="https://www.planning.data.gov.uk/map/?dataset=design-code-area" class="govuk-link">National map of design code areas</a></li>
+    </ul>
+
+
+    <p class="govuk-body">The data is available through the <a href="https://www.planning.data.gov.uk/docs" class="govuk-link">API</a> or downloaded in a number of different formats:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://www.planning.data.gov.uk/dataset/design-code" class="govuk-link">Design code dataset</a></li>
+      <li><a href="https://www.planning.data.gov.uk/dataset/design-code-area" class="govuk-link">Design code area dataset</a></li>
+      <li><a href="https://www.planning.data.gov.uk/dataset/design-code-status" class="govuk-link">Design code status dataset</a></li>
+      <li><a href="https://www.planning.data.gov.uk/dataset/design-code-category" class="govuk-link">Design code category dataset</a></li>
     </ul>
 
   </div>

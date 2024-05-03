@@ -1,7 +1,7 @@
 import geopandas as gpd
 from flask import Blueprint, render_template, request, url_for
 
-from application.models import DesignCode, DesignCodeArea, Organisation
+from application.models import DesignCodeAreaOriginal, DesignCodeOriginal, Organisation
 
 base = Blueprint("base", __name__)
 
@@ -30,10 +30,12 @@ def design_codes():
             for ref in selection
         ]
         selected_org_entities = [org.organisation for org in orgs]
-        filter_condition = DesignCode.organisation_entity.in_(selected_org_entities)
-        dcs = DesignCode.query.filter(filter_condition).all()
+        filter_condition = DesignCodeOriginal.organisation_entity.in_(
+            selected_org_entities
+        )
+        dcs = DesignCodeOriginal.query.filter(filter_condition).all()
     else:
-        dcs = DesignCode.query.all()
+        dcs = DesignCodeOriginal.query.all()
 
     return render_template(
         "design-codes.html",
@@ -54,10 +56,12 @@ def design_code_areas():
             for ref in selection
         ]
         selected_org_entities = [org.organisation for org in orgs]
-        filter_condition = DesignCodeArea.organisation_entity.in_(selected_org_entities)
-        dcas = DesignCodeArea.query.filter(filter_condition).all()
+        filter_condition = DesignCodeAreaOriginal.organisation_entity.in_(
+            selected_org_entities
+        )
+        dcas = DesignCodeAreaOriginal.query.filter(filter_condition).all()
     else:
-        dcas = DesignCodeArea.query.all()
+        dcas = DesignCodeAreaOriginal.query.all()
 
     return render_template(
         "design-code-areas.html",
@@ -69,11 +73,11 @@ def design_code_areas():
 
 @base.route("/design-code/<int:entity>")
 def design_code(entity):
-    dc = DesignCode.query.get(entity)
+    dc = DesignCodeOriginal.query.get(entity)
     organisation = Organisation.query.get(dc.organisation_entity)
     design_code_areas = [
         dca
-        for dca in DesignCodeArea.query.all()
+        for dca in DesignCodeAreaOriginal.query.all()
         if dca.json is not None and dca.json["design-code"] == dc.reference
     ]
     if design_code_areas:
@@ -103,9 +107,9 @@ def design_code(entity):
 
 @base.route("/design-code-area/<int:entity>")
 def design_code_area(entity):
-    dca = DesignCodeArea.query.get(entity)
-    design_code = DesignCode.query.filter(
-        DesignCode.reference == dca.json["design-code"]
+    dca = DesignCodeAreaOriginal.query.get(entity)
+    design_code = DesignCodeOriginal.query.filter(
+        DesignCodeOriginal.reference == dca.json["design-code"]
     ).first()
     organisation = Organisation.query.get(dca.organisation_entity)
 
@@ -134,7 +138,7 @@ def design_code_area(entity):
 
 @base.route("/map")
 def map():
-    design_code_areas = DesignCodeArea.query.all()
+    design_code_areas = DesignCodeAreaOriginal.query.all()
     geojson = {"type": "FeatureCollection", "features": []}
 
     for dca in design_code_areas:

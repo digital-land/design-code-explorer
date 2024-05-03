@@ -8,8 +8,12 @@ class Config:
     APP_ROOT = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
     SECRET_KEY = os.getenv("SECRET_KEY")
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{PROJECT_ROOT}/data/design-code.sqlite3"
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_BINDS = {
+        "design_code": f"sqlite:///{PROJECT_ROOT}/data/design-code.sqlite3",
         "design_code_area": f"sqlite:///{PROJECT_ROOT}/data/design-code-area.sqlite3",
         "organisation": f"sqlite:///{PROJECT_ROOT}/data/organisation.sqlite3",
     }

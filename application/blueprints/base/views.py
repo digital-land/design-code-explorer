@@ -19,6 +19,11 @@ def index():
     return render_template("index.html")
 
 
+@base.route("/info")
+def info():
+    return render_template("info.html")
+
+
 @base.route("/design-codes")
 def design_codes():
     organisations = Organisation.query.all()
@@ -41,6 +46,23 @@ def design_codes():
         "design-codes.html",
         design_codes=dcs,
         organisations=organisations,
+        filter_url=url_for("base.design_codes"),
+    )
+
+
+@base.route("/design-code-rules")
+def design_code_rules():
+    organisations = []
+    design_code_rules = []
+    design_code_rule_categories = []
+    design_code_rule_category_classifications = []
+
+    return render_template(
+        "design-code-rules.html",
+        design_code_rules=design_code_rules,
+        organisations=organisations,
+        design_code_rule_categories=design_code_rule_categories,
+        design_code_rule_category_classifications=design_code_rule_category_classifications,
         filter_url=url_for("base.design_codes"),
     )
 
@@ -103,6 +125,13 @@ def design_code(entity):
         coords=coords,
         bounding_box=bounding_box,
     )
+
+
+@base.route("/design-code-rule/<reference>")
+def design_code_rule(reference):
+    design_code_rule = None
+
+    return render_template("design-code-rule.html", design_code_rule=design_code_rule)
 
 
 @base.route("/design-code-area/<int:entity>")

@@ -1,0 +1,20 @@
+<!-- filter by design code status -->
+<div class="govuk-form-group">
+  {% call dlFilterGroup({
+    "title": "Classification",
+    "is_open": True,
+    "selected": 0
+  }) %}
+  {% set pa_checked = request.args.getlist("classification") %}
+  <div class="govuk-checkboxes">
+    {% for classification in design_code_rule_category_classifications %}
+    <div class="govuk-checkboxes__item">
+      <input class="govuk-checkboxes__input" id="classification-{{ classification['reference'] }}" name="classification" type="checkbox" value="{{ classification['reference'] }}" {% if classification['reference'] in pa_checked %}checked=checked{% endif %}>
+      <label class="govuk-label govuk-checkboxes__label" for="classification-{{ classification['reference'] }}">
+        {{ classification['name'] }}
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+  {% endcall %}
+</div>

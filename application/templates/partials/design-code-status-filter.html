@@ -1,0 +1,20 @@
+<!-- filter by design code status -->
+<div class="govuk-form-group">
+  {% call dlFilterGroup({
+    "title": "Status",
+    "is_open": True,
+    "selected": 0
+  }) %}
+  {% set pa_checked = request.args.getlist("status") %}
+  <div class="govuk-checkboxes">
+    {% for status in design_code_statuses %}
+    <div class="govuk-checkboxes__item">
+      <input class="govuk-checkboxes__input" id="status-{{ status['reference'] }}" name="status" type="checkbox" value="{{ status['reference'] }}" {% if status['reference'] in pa_checked %}checked=checked{% endif %}>
+      <label class="govuk-label govuk-checkboxes__label" for="status-{{ status['reference'] }}">
+        {{ status['name'] }}
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+  {% endcall %}
+</div>

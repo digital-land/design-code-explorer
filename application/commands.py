@@ -127,6 +127,7 @@ def load_data():
 @data_cli.command("drop-data")
 def drop_data():
     print("Dropping data")
+    DesignCodeCharacteristic.query.delete()
     DesignCodeRule.query.delete()
     DesignCode.query.delete()
     print("Done dropping data")

@@ -110,8 +110,16 @@ class DesignCodeCharacteristic(db.Model):
     name: Mapped[Optional[str]] = mapped_column(Text)
 
 
-# class DesignCodeCategory:
-#     pass
+class DesignCodeCategory(db.Model):
+    reference: Mapped[str] = mapped_column(Text, primary_key=True)
+    name: Mapped[Optional[str]] = mapped_column(Text)
+    design_code_characteristic_reference: Mapped[str] = mapped_column(
+        ForeignKey("design_code_characteristic.reference")
+    )
+    design_code_charactersitic: Mapped["DesignCodeCharacteristic"] = relationship(
+        backref="design_code_categories"
+    )
+
 
 # class DesignCodeAreaType:
 #     pass
@@ -169,3 +177,13 @@ class DesignCodeCharacteristicModel(BaseModel):
 
     reference: str
     name: Optional[str]
+
+
+class DesignCodeCategoryModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    reference: str
+    name: Optional[str]
+    design_code_characteristic_reference: str = Field(
+        alias="design-code-characteristic"
+    )

@@ -1,0 +1,79 @@
+name,reference,design-code-characteristic
+Character Types,character-types,context
+Site Context,site-context,context
+Site Assessment,site-assessment,context
+Historic Assessment,historic-assessment,context
+Heritage Assets,heritage-assets,context
+Street Network,street-network,movement
+Public Transport,public-transport,movement
+Street Hierarchy,street-hierarchy,movement
+Walking,walking,movement
+Cycling,cycling,movement
+Junctions & Crossings,junctions-crossings,movement
+Inclusive Streets,inclusive-streets,movement
+Car Parking,car-parking,movement
+Garages,garages,
+Servicing,servicing,
+Cycle Parking,cycle-parking,movement
+Services & Utilities,services-utilities,movement
+Network of Spaces,network-of-spaces,nature
+OS Provision,os-provision,nature
+"Play, Sports & Recreation",play-sports-recreation,
+Design,design,nature
+Working with Water,working-with-water,nature
+SUDs,suds,nature
+Flood Risk,flood-risk,nature
+Net Gain,net-gain,nature
+Biodiversity,biodiversity,nature
+Street Trees,street-trees,nature
+Density,density,built-form
+Whether Buildings Join,whether-buildings-join,built-form
+Types & Forms,types-forms,built-form
+Tall Buildings,tall-buildings,
+Corners,corners,
+Extensions,extensions,
+Blocks,blocks,built-form
+Building Line,building-line,built-form
+Setback,setback,
+Height,height,built-form
+Local Character,local-character,identity
+Legibility,legibility,identity
+Master planning,master-planning,identity
+Design of Buildings,design-of-buildings,identity
+Boundaries & Edges,boundaries-edges,
+Primary Streets,primary-streets,public-spaces
+Local & Secondary Streets,local-secondary-streets,public-spaces
+Tertiary Streets,tertiary-streets,public-spaces
+Meeting Places,meeting-places,public-spaces
+Multi-functional,multi-functional,public-spaces
+Furniture,furniture,
+Public Art,public-art,
+Home Zones,home-zones,public-spaces
+Secured by Design,secured-by-design,public-spaces
+Counter Terrorism,counter-terrorism,public-spaces
+Efficient Land Use,efficient-land-use,uses
+Mix,mix,uses
+Active Frontage,active-frontage,uses
+Housing for All,housing-for-all,uses
+Type,type,uses
+Schools,schools,uses
+Community Facilities,community-facilities,uses
+Local Services,local-services,uses
+Space Standards,space-standards,homes-and-buildings
+Ceiling Heights,ceiling-heights,
+Plant,plant,
+House Type & Mix,house-type-mix,
+Accessibility,accessibility,homes-and-buildings
+"Light, Aspect & Privacy",light-aspect-privacy,homes-and-buildings
+Security,security,homes-and-buildings
+Gardens & Balconies,gardens-balconies,homes-and-buildings
+Energy Hierarchy,energy-hierarchy,resources
+Energy Efficiency,energy-efficiency,resources
+Neighbourhood Energy,neighbourhood-energy,resources
+Embodied Energy,embodied-energy,resources
+Construction,construction,resources
+MMC,mmc,resources
+Water,water,resources
+Management Plan,management-plan,lifespan
+Participation,participation,lifespan
+Community,community,lifespan

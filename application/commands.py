@@ -7,6 +7,8 @@ from flask.cli import AppGroup
 from application.extensions import db
 from application.models import (
     DesignCode,
+    DesignCodeCategory,
+    DesignCodeCategoryModel,
     DesignCodeCharacteristic,
     DesignCodeCharacteristicModel,
     DesignCodeModel,
@@ -83,11 +85,13 @@ def load_data():
         "design-code.csv": DesignCodeModel,
         "design-code-rule.csv": DesignCodeRuleModel,
         "design-code-characteristic.csv": DesignCodeCharacteristicModel,
+        "design-code-category.csv": DesignCodeCategoryModel,
     }
     pydantic_to_db_model = {
         DesignCodeModel: DesignCode,
         DesignCodeRuleModel: DesignCodeRule,
         DesignCodeCharacteristicModel: DesignCodeCharacteristic,
+        DesignCodeCategoryModel: DesignCodeCategory,
     }
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -112,14 +116,13 @@ def load_data():
                             db.session.add(org)
                         else:
                             db.session.add(model(**pm.model_dump()))
+                        db.session.commit()
                     except Exception as e:
                         print(f"Error with {row}")
                         print(e)
                         continue
                 else:
                     print(f"Design code {reference} already in db")
-
-        db.session.commit()
 
     print("Done loading data")
 

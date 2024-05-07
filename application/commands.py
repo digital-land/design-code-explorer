@@ -7,6 +7,8 @@ from flask.cli import AppGroup
 from application.extensions import db
 from application.models import (
     DesignCode,
+    DesignCodeCharacteristic,
+    DesignCodeCharacteristicModel,
     DesignCodeModel,
     DesignCodeRule,
     DesignCodeRuleModel,
@@ -80,10 +82,12 @@ def load_data():
     design_code_files_to_pydantic = {
         "design-code.csv": DesignCodeModel,
         "design-code-rule.csv": DesignCodeRuleModel,
+        "design-code-characteristic.csv": DesignCodeCharacteristicModel,
     }
     pydantic_to_db_model = {
         DesignCodeModel: DesignCode,
         DesignCodeRuleModel: DesignCodeRule,
+        DesignCodeCharacteristicModel: DesignCodeCharacteristic,
     }
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -98,14 +102,16 @@ def load_data():
                 _santize(row)
                 reference = row["reference"]
                 if model.query.get(reference) is None:
-                    org = Organisation.query.get(row["organisation"])
-                    if org is None:
-                        print(f"Organisation {row['organisation']} not found")
-                        continue
+                    org = row.get("organisation", None)
+                    if org is not None:
+                        org = Organisation.query.get(row["organisation"])
                     try:
                         pm = pydantic_model(**row)
-                        org.design_codes.append(model(**pm.model_dump()))
-                        db.session.add(org)
+                        if org is not None:
+                            org.design_codes.append(model(**pm.model_dump()))
+                            db.session.add(org)
+                        else:
+                            db.session.add(model(**pm.model_dump()))
                     except Exception as e:
                         print(f"Error with {row}")
                         print(e)

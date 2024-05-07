@@ -105,14 +105,17 @@ class DesignCodeArea(DateMixin):
     document_url: Mapped[Optional[str]] = mapped_column(Text)
 
 
+class DesignCodeCharacteristic(db.Model):
+    reference: Mapped[str] = mapped_column(Text, primary_key=True)
+    name: Mapped[Optional[str]] = mapped_column(Text)
+
+
 # class DesignCodeCategory:
 #     pass
 
 # class DesignCodeAreaType:
 #     pass
 
-# class DesignCodeCharacteristic:
-#     pass
 
 # class DesignCodeStatus:
 #     pass
@@ -159,3 +162,10 @@ class DesignCodeRuleModel(BaseModel):
                 return categories
         else:
             None
+
+
+class DesignCodeCharacteristicModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    reference: str
+    name: Optional[str]

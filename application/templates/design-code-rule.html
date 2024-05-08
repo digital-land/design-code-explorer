@@ -73,14 +73,20 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Description</dt>
-            <dd class="govuk-summary-list__value">{{design_code_rule.description if design_code_rule.description}}</dd>
+            <dd class="govuk-summary-list__value">
+              {% if design_code_rule.description %}
+              {{ design_code_rule.description}}
+              {% else %}
+              <span class="govuk-hint">no description provided</span>
+              {% endif %}
+            </dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Categories</dt>
             <dd class="govuk-summary-list__value">
-              {% if design_code_rule.design_code_categories %}
+              {% if design_code_rule.design_code_rule_categories %}
               <ul class="govuk-list govuk-list--bullet">
-                {% for category in design_code_rule.design_code_categories %}
+                {% for category in design_code_rule.design_code_rule_categories %}
                 <li>{{ category }}</li>
                 {% endfor %}
               </ul>
@@ -89,7 +95,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation</dt>
-            <dd class="govuk-summary-list__value">{{design_code_rule.organisation}}</dd>
+            <dd class="govuk-summary-list__value">{{design_code_rule.organisation_id}}</dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Documentation URL</dt>
@@ -101,6 +107,23 @@
             </dd>
           </div>
         </dl>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card govuk-!-margin-top-6">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Design code areas
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+
+        <p class="govuk-hint govuk-!-margin-bottom-0">There are currently no areas where this deisgn code is applied.</p>
+
       </div>
     </section>
   </div>

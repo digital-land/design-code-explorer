@@ -143,7 +143,7 @@ def design_code(reference):
 
 @base.route("/design-code-rule/<reference>")
 def design_code_rule(reference):
-    design_code_rule = None
+    design_code_rule = DesignCodeRule.query.get(reference)
 
     return render_template("design-code-rule.html", design_code_rule=design_code_rule)
 

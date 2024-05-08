@@ -1,0 +1,36 @@
+{% extends 'layouts/base.html' %}
+
+{% block mapAssets %}
+{# overriding mapAssets from digital-land-frontend #}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': url_for('base.index')
+    },
+    {
+      'text': "Design code rule",
+      'href': url_for('base.design_code_rules')
+    },
+    {
+      'text': design_code_rule['name'] if design_code_rule['name'] else design_code_rule['reference']
+    }
+  ]
+}) }}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">Design code rule</span>
+    <h1 class="govuk-heading-xl">{{ design_code_rule['name'] if design_code_rule['name'] else design_code_rule['reference'] }}</h1>
+  </div>
+</div>
+{% endblock %}

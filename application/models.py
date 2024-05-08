@@ -26,6 +26,26 @@ class Entity(db.Model):
     start_date = Column(Text)
     end_date = Column(Text)
 
+    def dict(self):
+        data = {}
+        for key, val in self.json.items():
+            k = key.replace("-", "_")
+            if val == "":
+                data[k] = None
+            else:
+                data[k] = val
+
+        return {
+            "entity": self.entity if self.entity else None,
+            "name": self.name if self.name else None,
+            "prefix": self.prefix if self.prefix else None,
+            "reference": self.reference if self.reference else None,
+            "entry_date": self.entry_date if self.entry_date else None,
+            "start_date": self.start_date if self.start_date else None,
+            "end_date": self.end_date if self.end_date else None,
+            **data,
+        }
+
 
 class DesignCodeOriginal(Entity):
     __bind_key__ = "design_code"
@@ -68,7 +88,7 @@ class DesignCode(DateMixin):
     )
     organisation: Mapped["Organisation"] = relationship(backref="design_codes")
     design_code_status: Mapped[Optional[str]] = mapped_column(Text)
-    documention_url: Mapped[Optional[str]] = mapped_column(Text)
+    documentation_url: Mapped[Optional[str]] = mapped_column(Text)
     document_url: Mapped[Optional[str]] = mapped_column(Text)
 
 

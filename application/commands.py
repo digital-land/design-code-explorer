@@ -12,6 +12,7 @@ from application.models import (
     DesignCodeCharacteristic,
     DesignCodeCharacteristicModel,
     DesignCodeModel,
+    DesignCodeOriginal,
     DesignCodeRule,
     DesignCodeRuleCategory,
     DesignCodeRuleCategoryModel,
@@ -152,3 +153,29 @@ def drop_data():
             db.session.commit()
 
     print("Done dropping data")
+
+
+@data_cli.command("merge")
+def merge_data():
+    print("Merging data from sqlite db to postgres db")
+    base_url = "https://datasette.planning.data.gov.uk/entity/entity.json"
+    org_url = "{base_url}?_sort=entity&entity__exact={org_entity}&_shape=array"
+    for design_code in DesignCodeOriginal.query.all():
+        org_entity = design_code.organisation_entity
+        resp = requests.get(org_url.format(base_url=base_url, org_entity=org_entity))
+        prefix = resp.json()[0]["prefix"]
+        reference = resp.json()[0]["reference"]
+        org = f"{prefix}:{reference}"
+
+        organisation = Organisation.query.get(org)
+        if organisation is None:
+            print(f"can't add design code, {org} not found")
+        else:
+            data = design_code.dict()
+            data["organisation_id"] = organisation.organisation
+            dc = DesignCode(**data)
+            db.session.add(dc)
+            db.session.commit()
+            print(f"Merged design code {dc.reference}")
+
+    print("Done merging data")

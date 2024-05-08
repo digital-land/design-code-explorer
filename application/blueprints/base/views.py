@@ -5,6 +5,7 @@ from application.models import (
     DesignCode,
     DesignCodeAreaOriginal,
     DesignCodeOriginal,
+    DesignCodeRule,
     DesignCodeStatus,
     Organisation,
 )
@@ -59,8 +60,8 @@ def design_codes():
 
 @base.route("/design-code-rules")
 def design_code_rules():
-    organisations = []
-    design_code_rules = []
+    organisations = _get_all_orgs_with_design_codes()
+    design_code_rules = DesignCodeRule.query.all()
     design_code_rule_categories = []
     design_code_rule_category_classifications = []
 

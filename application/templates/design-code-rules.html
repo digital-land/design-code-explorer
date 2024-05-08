@@ -37,12 +37,12 @@
       <ul class="govuk-list">
         {% for design_code_rule in design_code_rules %}
         <li class="govuk-!-margin-bottom-3">
-          <a href="{{url_for('base.design_code', entity=design_code.entity)}}"
+          <a href="{{url_for('base.design_code_rule', reference=design_code_rule.reference)}}"
             class="govuk-link">{{design_code_rule.reference}}</a>
           <span class="govuk-!-font-size-16">- {{ design_code_rule.name }}</span>
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full"><span class="govuk-hint govuk-!-font-size-16">
-              {{ design_code_rule.json["description"] }}</span>
+              {{ design_code_rule["description"] }}</span>
             </div>
           </div>
         </li>

@@ -47,12 +47,19 @@ def design_codes():
         DesignCodeRuleCategory.name.asc()
     ).all()
 
+    query = DesignCode.query
+
     if "organisation" in request.args:
         org_selection = request.args.getlist("organisation")
         filter_condition = DesignCode.organisation_id.in_(org_selection)
-        dcs = DesignCode.query.filter(filter_condition).all()
-    else:
-        dcs = DesignCode.query.all()
+        query = query.filter(filter_condition)
+
+    if "status" in request.args:
+        status_selection = request.args.getlist("status")
+        filter_condition = DesignCode.design_code_status.in_(status_selection)
+        query = query.filter(filter_condition)
+
+    dcs = query.all()
 
     return render_template(
         "design-codes.html",

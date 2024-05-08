@@ -67,7 +67,7 @@ def design_code_rules():
     design_code_rule_categories = DesignCodeRuleCategory.query.order_by(
         DesignCodeRuleCategory.name.asc()
     ).all()
-    design_code_rule_category_classifications = DesignCodeCharacteristic.query.order_by(
+    design_code_rule_category_characteristics = DesignCodeCharacteristic.query.order_by(
         DesignCodeCharacteristic.name.asc()
     ).all()
 
@@ -76,7 +76,7 @@ def design_code_rules():
         design_code_rules=design_code_rules,
         organisations=organisations,
         design_code_rule_categories=design_code_rule_categories,
-        design_code_rule_category_classifications=design_code_rule_category_classifications,
+        design_code_rule_category_characteristics=design_code_rule_category_characteristics,
         filter_url=url_for("base.design_codes"),
     )
 

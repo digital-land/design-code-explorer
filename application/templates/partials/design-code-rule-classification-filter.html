@@ -1,17 +1,17 @@
 <!-- filter by design code status -->
 <div class="govuk-form-group">
   {% call dlFilterGroup({
-    "title": "Classification",
+    "title": "Characteristic",
     "is_open": True,
     "selected": 0
   }) %}
-  {% set pa_checked = request.args.getlist("classification") %}
+  {% set pa_checked = request.args.getlist("characteristic") %}
   <div class="govuk-checkboxes">
-    {% for classification in design_code_rule_category_classifications %}
+    {% for characteristic in design_code_rule_category_characteristics %}
     <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" id="classification-{{ classification['reference'] }}" name="classification" type="checkbox" value="{{ classification['reference'] }}" {% if classification['reference'] in pa_checked %}checked=checked{% endif %}>
-      <label class="govuk-label govuk-checkboxes__label" for="classification-{{ classification['reference'] }}">
-        {{ classification['name'] }}
+      <input class="govuk-checkboxes__input" id="characteristic-{{ characteristic['reference'] }}" name="characteristic" type="checkbox" value="{{ characteristic['reference'] }}" {% if characteristic['reference'] in pa_checked %}checked=checked{% endif %}>
+      <label class="govuk-label govuk-checkboxes__label" for="characteristic-{{ characteristic['reference'] }}">
+        {{ characteristic['name'] }}
       </label>
     </div>
     {% endfor %}

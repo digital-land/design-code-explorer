@@ -136,7 +136,7 @@ def load_data():
                     print(e)
                     continue
             else:
-                print(f"Design code {reference} already in db")
+                print(f"{reference} from {location} already in db")
 
     print("Done loading data")
 

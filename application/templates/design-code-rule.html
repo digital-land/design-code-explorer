@@ -16,8 +16,12 @@
       'href': url_for('base.index')
     },
     {
-      'text': "Design code rule",
-      'href': url_for('base.design_code_rules')
+      'text': "Design code",
+      'href': url_for('base.design_codes')
+    },
+    {
+      'text': design_code_rule.design_code.name,
+      'href': url_for('base.design_code', reference=design_code_rule.design_code.reference)
     },
     {
       'text': design_code_rule['name'] if design_code_rule['name'] else design_code_rule['reference']

@@ -7,6 +7,8 @@ from flask.cli import AppGroup
 from application.extensions import db
 from application.models import (
     DesignCode,
+    DesignCodeAreaType,
+    DesignCodeAreaTypeModel,
     DesignCodeCategory,
     DesignCodeCategoryModel,
     DesignCodeCharacteristic,
@@ -14,6 +16,8 @@ from application.models import (
     DesignCodeModel,
     DesignCodeRule,
     DesignCodeRuleModel,
+    DesignCodeStatus,
+    DesignCodeStatusModel,
     Organisation,
 )
 
@@ -77,60 +81,74 @@ def _santize(row):
             row[key] = None
 
 
-@data_cli.command("load-data")
+@data_cli.command("load")
 def load_data():
     print("Loading data")
 
+    base_url = "https://dluhc-datasets.planning-data.dev/dataset"
+
     design_code_files_to_pydantic = {
+        f"{base_url}/design-code-characteristic.json": DesignCodeCharacteristicModel,
+        f"{base_url}/design-code-rule-category.json": DesignCodeCategoryModel,
+        f"{base_url}/design-code-area-type.json": DesignCodeAreaTypeModel,
+        f"{base_url}/design-code-status.json": DesignCodeStatusModel,
         "design-code.csv": DesignCodeModel,
         "design-code-rule.csv": DesignCodeRuleModel,
-        "design-code-characteristic.csv": DesignCodeCharacteristicModel,
-        "design-code-category.csv": DesignCodeCategoryModel,
     }
+
     pydantic_to_db_model = {
         DesignCodeModel: DesignCode,
         DesignCodeRuleModel: DesignCodeRule,
         DesignCodeCharacteristicModel: DesignCodeCharacteristic,
         DesignCodeCategoryModel: DesignCodeCategory,
+        DesignCodeAreaTypeModel: DesignCodeAreaType,
+        DesignCodeStatusModel: DesignCodeStatus,
     }
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(os.path.dirname(current_dir), "data")
 
-    for filename, pydantic_model in design_code_files_to_pydantic.items():
+    for location, pydantic_model in design_code_files_to_pydantic.items():
         model = pydantic_to_db_model[pydantic_model]
-        file_path = os.path.join(data_dir, filename)
-        with open(file_path, "r") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                _santize(row)
-                reference = row["reference"]
-                if model.query.get(reference) is None:
-                    org = row.get("organisation", None)
-                    if org is not None:
-                        org = Organisation.query.get(row["organisation"])
-                    try:
-                        pm = pydantic_model(**row)
-                        if org is not None:
-                            org.design_codes.append(model(**pm.model_dump()))
-                            db.session.add(org)
-                        else:
-                            db.session.add(model(**pm.model_dump()))
-                        db.session.commit()
-                    except Exception as e:
-                        print(f"Error with {row}")
-                        print(e)
-                        continue
-                else:
-                    print(f"Design code {reference} already in db")
+        rows = []
+        if location.startswith("https"):
+            print(f"Loading data from {location}")
+            resp = requests.get(location)
+            rows = resp.json()["records"]
+        else:
+            file_path = os.path.join(data_dir, location)
+            print(f"Loading data from {location}")
+            with open(file_path, "r") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    rows.append(row)
+        for row in rows:
+            _santize(row)
+            reference = row["reference"]
+            if model.query.get(reference) is None:
+                try:
+                    pm = pydantic_model(**row)
+                    m = model(**pm.model_dump())
+                    db.session.add(m)
+                    db.session.commit()
+                except Exception as e:
+                    print(f"Error with {row}")
+                    print(e)
+                    continue
+            else:
+                print(f"Design code {reference} already in db")
 
     print("Done loading data")
 
 
-@data_cli.command("drop-data")
+@data_cli.command("drop")
 def drop_data():
     print("Dropping data")
-    DesignCodeCharacteristic.query.delete()
-    DesignCodeRule.query.delete()
-    DesignCode.query.delete()
+
+    for table in reversed(db.metadata.sorted_tables):
+        if table.name != "organisation":
+            print(f"Delete all from {table.name}")
+            db.session.execute(table.delete())
+            db.session.commit()
+
     print("Done dropping data")

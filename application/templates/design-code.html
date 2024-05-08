@@ -52,23 +52,34 @@
             <dd class="govuk-summary-list__value">{{design_code.name}}</dd>
           </div>
           <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Description</dt>
+            <dd class="govuk-summary-list__value">{{design_code.description if design_code.description}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation</dt>
             <dd class="govuk-summary-list__value">
               <a class="govuk-link" href="https://www.planning.data.gov.uk/entity/{{organisation.organisation}}">{{ organisation.name }}</a></dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Design code status</dt>
-            <dd class="govuk-summary-list__value">{{design_code.json["design-code-status"]}}</dd>
+            <dd class="govuk-summary-list__value">{{design_code.design_code_status}}</dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Document URL</dt>
             <dd class="govuk-summary-list__value"><a class="govuk-link"
-                href="{{design_code.json["document-url"]}}">{{design_code.json["document-url"]}}</a></dd>
+                href="{{design_code.document_url}}">{{design_code.document_url}}</a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Documentation URL</dt>
+            <dd class="govuk-summary-list__value"><a class="govuk-link"
+                href="{{design_code.documentation_url}}">{{design_code.documentation_url}}</a></dd>
           </div>
         </dl>
       </div>
       <div class="app-summary-card__footer">
+        {% if design_code.entity %}
         <p class="govuk-body govuk-!-font-size-14">Entity <a href="https://www.planning.data.gov.uk/entity/{{ design_code['entity'] }}" class="govuk-link">{{ design_code['entity'] }}</a> from <a href="https://www.planning.data.gov.uk/" class="govuk-link govuk-link--text-colour">planning.data.gov.uk</a>.</p>
+        {% endif %}
       </div>
     </section>
   </div>

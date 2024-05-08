@@ -52,7 +52,7 @@
       <ul class="govuk-list">
         {% for design_code in design_codes %}
         <li class="govuk-!-margin-bottom-3">
-          <a href="{{url_for('base.design_code', entity='1')}}"
+          <a href="{{url_for('base.design_code', reference=design_code.reference)}}"
             class="govuk-link">{{design_code.reference}}</a>
           <span class="govuk-!-font-size-16">- {{ design_code.name }}</span>
           <div class="govuk-grid-row">

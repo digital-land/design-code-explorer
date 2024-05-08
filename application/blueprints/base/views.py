@@ -100,10 +100,10 @@ def design_code_areas():
     )
 
 
-@base.route("/design-code/<int:entity>")
-def design_code(entity):
-    dc = DesignCodeOriginal.query.get(entity)
-    organisation = Organisation.query.get(dc.organisation_entity)
+@base.route("/design-code/<string:reference>")
+def design_code(reference):
+    dc = DesignCode.query.get(reference)
+    organisation = dc.organisation
     design_code_areas = [
         dca
         for dca in DesignCodeAreaOriginal.query.all()

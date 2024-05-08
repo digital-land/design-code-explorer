@@ -59,6 +59,12 @@ class DesignCodeAreaOriginal(Entity):
     geometry = db.Column(Text)
     geojson = db.Column(db.JSON)
 
+    def dict(self):
+        data = super().dict()
+        data["geometry"] = self.geometry if self.geometry else None
+        data["geojson"] = self.geojson if self.geojson else None
+        return data
+
 
 class Organisation(db.Model):
     organisation: Mapped[str] = mapped_column(Text, primary_key=True)

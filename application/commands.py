@@ -7,6 +7,8 @@ from flask.cli import AppGroup
 from application.extensions import db
 from application.models import (
     DesignCode,
+    DesignCodeArea,
+    DesignCodeAreaOriginal,
     DesignCodeAreaType,
     DesignCodeAreaTypeModel,
     DesignCodeCharacteristic,
@@ -160,6 +162,7 @@ def merge_data():
     print("Merging data from sqlite db to postgres db")
     base_url = "https://datasette.planning.data.gov.uk/entity/entity.json"
     org_url = "{base_url}?_sort=entity&entity__exact={org_entity}&_shape=array"
+    orgs = {}
     for design_code in DesignCodeOriginal.query.all():
         org_entity = design_code.organisation_entity
         resp = requests.get(org_url.format(base_url=base_url, org_entity=org_entity))
@@ -173,9 +176,36 @@ def merge_data():
         else:
             data = design_code.dict()
             data["organisation_id"] = organisation.organisation
-            dc = DesignCode(**data)
-            db.session.add(dc)
-            db.session.commit()
+            dc = DesignCode.query.get(data["reference"])
+            if dc is None:
+                dc = DesignCode(**data)
+                db.session.add(dc)
+                db.session.commit()
+            else:
+                print(f"Design code {dc.reference} already in db")
+
+            orgs[org_entity] = organisation
             print(f"Merged design code {dc.reference}")
+
+    for design_code_area in DesignCodeAreaOriginal.query.all():
+        org_entity = design_code_area.organisation_entity
+        organisation = orgs.get(org_entity, None)
+        if organisation is None:
+            print(f"can't add design code area, {org_entity} not found")
+        else:
+            data = design_code_area.dict()
+            data["organisation_id"] = organisation.organisation
+            dca = DesignCodeArea.query.get(data["reference"])
+            if dca is None:
+                ref = data["design_code"]
+                data["design_code_reference"] = ref
+                del data["design_code"]
+                dca = DesignCodeArea(**data)
+                db.session.add(dca)
+                db.session.commit()
+            else:
+                print(f"Design code area {dca.reference} already in db")
+
+            print(f"Merged design code area {dca.reference}")
 
     print("Done merging data")

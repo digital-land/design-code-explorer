@@ -5,3 +5,44 @@
 @import "components/pagination";
 @import "components/search-results";
 @import "components/summary-card";
+
+
+
+// tag styles from latest govuk version
+.govuk-tag {
+  @include govuk-font($size: 19);
+  margin-top: -2px;
+  margin-bottom: -3px;
+
+  padding-top: 2px;
+  padding-right: 8px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  text-transform: unset;
+}
+
+
+.govuk-tag--blue {
+  color: govuk-shade(govuk-colour("blue"), 60%);
+  background-color: govuk-tint(govuk-colour("blue"), 70%);
+}
+
+.govuk-tag--light-blue {
+  color: govuk-shade(govuk-colour("blue"), 60%);
+  background-color: govuk-tint(govuk-colour("blue"), 90%);
+}
+
+.app-list-item__header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.app-list-item__title {
+  margin-bottom: 5px;
+}
+
+.app-list-item__header__flags {
+  justify-content: right;
+  text-align: right;
+}

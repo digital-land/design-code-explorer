@@ -51,17 +51,21 @@
       <hr class="govuk-section-break--m">
       <ul class="govuk-list">
         {% for design_code in design_codes %}
-        <li class="govuk-!-margin-bottom-3">
-          <a href="{{url_for('base.design_code', reference=design_code.reference)}}"
-            class="govuk-link">{{design_code.reference}}</a>
-          <span class="govuk-!-font-size-16">- {{ design_code.name }}</span>
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-              {% if design_code.description %}
-              <span class="govuk-hint govuk-!-font-size-16">{{ design_code.description }}</span>
-              {% endif %}
+        <li class="govuk-!-margin-bottom-3 app-list-item">
+          <div class="app-list-item__header">
+            <h3 class="govuk-heading-s app-list-item__title">
+              <a href="{{url_for('base.design_code', reference=design_code.reference)}}"
+              class="govuk-link">{{design_code.name}}</a>
+            </h3>
+            <div class="app-list-item__header__flags">
+            {% if design_code.design_code_status %}
+            <span class="govuk-tag govuk-tag--blue">{{ design_code.design_code_status|capitalize }}</span>
+            {% endif %}
             </div>
           </div>
+          {% if design_code.description %}
+          <p class="govuk-body govuk-!-font-size-16">{{ design_code.description }}</p>
+          {% endif %}
         </li>
         {% endfor %}
       </ul>

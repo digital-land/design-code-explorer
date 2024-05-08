@@ -4,8 +4,10 @@ from flask import Blueprint, render_template, request, url_for
 from application.models import (
     DesignCode,
     DesignCodeAreaOriginal,
+    DesignCodeCharacteristic,
     DesignCodeOriginal,
     DesignCodeRule,
+    DesignCodeRuleCategory,
     DesignCodeStatus,
     Organisation,
 )
@@ -62,8 +64,12 @@ def design_codes():
 def design_code_rules():
     organisations = _get_all_orgs_with_design_codes()
     design_code_rules = DesignCodeRule.query.all()
-    design_code_rule_categories = []
-    design_code_rule_category_classifications = []
+    design_code_rule_categories = DesignCodeRuleCategory.query.order_by(
+        DesignCodeRuleCategory.name.asc()
+    ).all()
+    design_code_rule_category_classifications = DesignCodeCharacteristic.query.order_by(
+        DesignCodeCharacteristic.name.asc()
+    ).all()
 
     return render_template(
         "design-code-rules.html",

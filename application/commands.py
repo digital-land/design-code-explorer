@@ -1,4 +1,5 @@
 import csv
+import json
 import os
 
 import requests
@@ -8,6 +9,7 @@ from application.extensions import db
 from application.models import (
     DesignCode,
     DesignCodeArea,
+    DesignCodeAreaModel,
     DesignCodeAreaOriginal,
     DesignCodeAreaType,
     DesignCodeAreaTypeModel,
@@ -97,6 +99,7 @@ def load_data():
         f"{base_url}/design-code-status.json": DesignCodeStatusModel,
         "design-code.csv": DesignCodeModel,
         "design-code-rule.csv": DesignCodeRuleModel,
+        "design-code-area.csv": DesignCodeAreaModel,
     }
 
     pydantic_to_db_model = {
@@ -106,6 +109,7 @@ def load_data():
         DesignCodeRuleCategoryModel: DesignCodeRuleCategory,
         DesignCodeAreaTypeModel: DesignCodeAreaType,
         DesignCodeStatusModel: DesignCodeStatus,
+        DesignCodeAreaModel: DesignCodeArea,
     }
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -132,6 +136,12 @@ def load_data():
                 try:
                     pm = pydantic_model(**row)
                     m = model(**pm.model_dump())
+                    if location == "design-code-area.csv":
+                        geojson_path = os.path.join(data_dir, f"{reference}.geojson")
+                        if os.path.exists(geojson_path):
+                            with open(geojson_path, "r") as f:
+                                geojson = json.load(f)
+                                m.geojson = geojson
                     db.session.add(m)
                     db.session.commit()
                 except Exception as e:

@@ -284,3 +284,24 @@ class DesignCodeStatusModel(BaseModel):
     start_date: Optional[datetime.date] = Field(alias="start-date")
     end_date: Optional[datetime.date] = Field(alias="end-date")
     entry_date: Optional[datetime.date] = Field(alias="entry-date")
+
+
+class DesignCodeAreaModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    reference: str
+    name: Optional[str]
+    prefix: Optional[str]
+    entity: Optional[int]
+    geometry: Optional[str]
+    point: Optional[str]
+    organisation_id: str = Field(alias="organisation")
+    design_code_area_type: Optional[str] = Field(alias="design-code-area-type")
+    design_code_reference: str = Field(alias="design-code")
+    design_code_rules: Optional[str] = Field(alias="design-code-rules")
+    documentation_url: Optional[str] = Field(alias="documentation-url")
+    document_url: Optional[str] = Field(alias="document-url")
+    start_date: Optional[datetime.date] = Field(alias="start-date")
+    end_date: Optional[datetime.date] = Field(alias="end-date")
+    entry_date: Optional[datetime.date] = Field(alias="entry-date")
+    geojson: Optional[dict]

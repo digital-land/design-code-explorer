@@ -1,4 +1,4 @@
-entity,prefix,reference,name,description,organisation,design-code-status,documention-url,document-url,start-date,end-date,entry-date
+entity,prefix,reference,name,description,organisation,design-code-status,documentation-url,document-url,start-date,end-date,entry-date
 ,design-code,healthy-street-for-surrey,Healthy street for Surrey,"Healthy Streets for Surrey raises the standard of street design, creating streets which are safe, green, beautiful, and resilient in line with the ambitions of Community Vision for Surrey 2030'",local-authority:SRY,adopted,https //healthystreets.surreycc.gov.uk/,https //healthystreets.surreycc.gov.uk/,2023-05-31,,
 ,design-code,trafford-design-code,Trafford design code,,local-authority:TRF,,https //trafforddesigncode.uk/,https //trafforddesigncode.uk/wp-content/uploads/2023/06/Trafford-Design-Code_text-only-version_June2023.pdf,,,
 ,design-code,uttlesford-design-code,Uttlesford design code,,local-authority:ESS,,https //www.essexdesignguide.co.uk/uttlesford-design-code,https //www.essexdesignguide.co.uk/uttlesford-design-code,,,

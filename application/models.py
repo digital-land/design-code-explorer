@@ -188,7 +188,7 @@ class DesignCodeModel(BaseModel):
     description: Optional[str]
     organisation_id: str = Field(alias="organisation")
     design_code_status: Optional[str] = Field(alias="design-code-status")
-    documention_url: Optional[str] = Field(alias="documention-url")
+    documentation_url: Optional[str] = Field(alias="documentation-url")
     document_url: Optional[str] = Field(alias="document-url")
     start_date: Optional[datetime.date] = Field(alias="start-date")
     end_date: Optional[datetime.date] = Field(alias="end-date")
@@ -218,12 +218,18 @@ class DesignCodeRuleModel(BaseModel):
     @classmethod
     def validate_design_code_rule_categories(cls, value: str) -> list[str]:
         if value:
-            categories = value.split(";")
-            if isinstance(categories, list):
-                return categories
-            categories = value.split(",")
-            if isinstance(categories, list):
-                return categories
+            if "," in value:
+                categories = value.split(",")
+                if len(categories) > 0:
+                    categories = [val.strip() for val in categories]
+                    return categories
+            elif ";" in value:
+                categories = value.split(";")
+                if len(categories) > 0:
+                    categories = [val.strip() for val in categories]
+                    return categories
+            else:
+                return None
         else:
             None
 

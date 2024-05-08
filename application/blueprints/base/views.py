@@ -43,6 +43,9 @@ def _get_all_orgs_with_design_codes():
 def design_codes():
     organisations = _get_all_orgs_with_design_codes()
     statuses = DesignCodeStatus.query.all()
+    design_code_rule_categories = DesignCodeRuleCategory.query.order_by(
+        DesignCodeRuleCategory.name.asc()
+    ).all()
 
     if "organisation" in request.args:
         org_selection = request.args.getlist("organisation")
@@ -57,6 +60,7 @@ def design_codes():
         organisations=organisations,
         filter_url=url_for("base.design_codes"),
         design_code_statuses=statuses,
+        design_code_rule_categories=design_code_rule_categories,
     )
 
 

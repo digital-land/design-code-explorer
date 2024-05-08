@@ -30,19 +30,20 @@ def info():
     return render_template("info.html")
 
 
+def _get_all_orgs_with_design_codes():
+    dcs = DesignCode.query.all()
+    organisations = [dc.organisation for dc in dcs]
+    return sorted(organisations, key=lambda org: org.name)
+
+
 @base.route("/design-codes")
 def design_codes():
-    organisations = Organisation.query.all()
+    organisations = _get_all_orgs_with_design_codes()
     statuses = DesignCodeStatus.query.all()
 
     if "organisation" in request.args:
-        selection = request.args.getlist("organisation")
-        orgs = [
-            Organisation.query.filter(Organisation.reference == ref).first()
-            for ref in selection
-        ]
-        selected_org_entities = [org.organisation for org in orgs]
-        filter_condition = DesignCode.organisation_entity.in_(selected_org_entities)
+        org_selection = request.args.getlist("organisation")
+        filter_condition = DesignCode.organisation_id.in_(org_selection)
         dcs = DesignCode.query.filter(filter_condition).all()
     else:
         dcs = DesignCode.query.all()

@@ -113,7 +113,7 @@ def design_code_rules():
         ]
         query = query.filter(or_(*or_conditions))
 
-    design_code_rules = query.all()
+    design_code_rules = query.order_by(DesignCodeRule.name.asc()).all()
 
     filter_url = url_for("base.design_code_rules")
 

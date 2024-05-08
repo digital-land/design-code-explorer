@@ -7639,3 +7639,10 @@
 .app-list-item__header__flags {
   justify-content: right;
   text-align: right; }
+
+.app-list-item__content p:first-child {
+  margin-top: 0; }
+
+.app-list-item__content p {
+  margin-top: 5px;
+  margin-bottom: 5px; }

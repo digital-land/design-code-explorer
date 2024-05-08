@@ -46,3 +46,13 @@
   justify-content: right;
   text-align: right;
 }
+
+.app-list-item__content {
+  p:first-child {
+    margin-top: 0;
+  }
+  p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}

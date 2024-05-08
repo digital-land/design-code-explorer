@@ -36,14 +36,28 @@
       <hr class="govuk-section-break--m">
       <ul class="govuk-list">
         {% for design_code_rule in design_code_rules %}
-        <li class="govuk-!-margin-bottom-3">
-          <a href="{{url_for('base.design_code_rule', reference=design_code_rule.reference)}}"
-            class="govuk-link">{{design_code_rule.reference}}</a>
-          <span class="govuk-!-font-size-16">- {{ design_code_rule.name }}</span>
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full"><span class="govuk-hint govuk-!-font-size-16">
-              {{ design_code_rule["description"] }}</span>
-            </div>
+        <li class="govuk-!-margin-bottom-4 app-list-item">
+          <div class="app-list-item__header">
+            <h3 class="govuk-heading-s app-list-item__title">
+              <a href="{{url_for('base.design_code_rule', reference=design_code_rule.reference)}}" class="govuk-link">
+                {{design_code_rule.name if design_code_rule.name else design_code_rule.reference-}}
+              </a>
+            {% if design_code_rule.name %}
+            <span class="govuk-!-font-size-16 govuk-hint"> ({{ design_code_rule.reference }})</span>
+            {% endif %}
+            </h3>
+          </div>
+          <div class="app-list-item__content">
+            <p class="govuk-!-font-size-16">
+              From: <a href="{{ url_for('base.design_code', reference=design_code_rule.design_code.reference) }}" class="govuk-link govuk-link--text-colour">{{ design_code_rule.design_code.name }}</a>
+            </p>
+            {% if design_code_rule.design_code_rule_categories %}
+            <p class="govuk-!-font-size-16">
+              Categories: {% for category in design_code_rule.design_code_rule_categories %}
+              <a href="{{ url_for('base.design_code_rules', category=category) }}" class="govuk-link govuk-link--text-colour">{{ category }}</a>
+              {{- '' if loop.last else ", "}}{% endfor %}
+            </p>
+            {% endif %}
           </div>
         </li>
         {% endfor %}

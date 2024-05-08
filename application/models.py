@@ -121,14 +121,14 @@ class DesignCodeCharacteristic(DateMixin):
     prefix: Mapped[Optional[str]] = mapped_column(Text)
 
 
-class DesignCodeCategory(DateMixin):
+class DesignCodeRuleCategory(DateMixin):
     reference: Mapped[str] = mapped_column(Text, primary_key=True)
     name: Mapped[Optional[str]] = mapped_column(Text)
     design_code_characteristic_reference: Mapped[str] = mapped_column(
         ForeignKey("design_code_characteristic.reference")
     )
     design_code_charactersitic: Mapped["DesignCodeCharacteristic"] = relationship(
-        backref="design_code_categories"
+        backref="design_code_rule_categories"
     )
     entity: Mapped[Optional[int]] = mapped_column(INTEGER)
     prefix: Mapped[Optional[str]] = mapped_column(Text)
@@ -212,7 +212,7 @@ class DesignCodeCharacteristicModel(BaseModel):
     entry_date: Optional[datetime.date] = Field(alias="entry-date")
 
 
-class DesignCodeCategoryModel(BaseModel):
+class DesignCodeRuleCategoryModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     reference: str

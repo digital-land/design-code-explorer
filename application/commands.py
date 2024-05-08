@@ -9,12 +9,12 @@ from application.models import (
     DesignCode,
     DesignCodeAreaType,
     DesignCodeAreaTypeModel,
-    DesignCodeCategory,
-    DesignCodeCategoryModel,
     DesignCodeCharacteristic,
     DesignCodeCharacteristicModel,
     DesignCodeModel,
     DesignCodeRule,
+    DesignCodeRuleCategory,
+    DesignCodeRuleCategoryModel,
     DesignCodeRuleModel,
     DesignCodeStatus,
     DesignCodeStatusModel,
@@ -89,7 +89,7 @@ def load_data():
 
     design_code_files_to_pydantic = {
         f"{base_url}/design-code-characteristic.json": DesignCodeCharacteristicModel,
-        f"{base_url}/design-code-rule-category.json": DesignCodeCategoryModel,
+        f"{base_url}/design-code-rule-category.json": DesignCodeRuleCategoryModel,
         f"{base_url}/design-code-area-type.json": DesignCodeAreaTypeModel,
         f"{base_url}/design-code-status.json": DesignCodeStatusModel,
         "design-code.csv": DesignCodeModel,
@@ -100,7 +100,7 @@ def load_data():
         DesignCodeModel: DesignCode,
         DesignCodeRuleModel: DesignCodeRule,
         DesignCodeCharacteristicModel: DesignCodeCharacteristic,
-        DesignCodeCategoryModel: DesignCodeCategory,
+        DesignCodeRuleCategoryModel: DesignCodeRuleCategory,
         DesignCodeAreaTypeModel: DesignCodeAreaType,
         DesignCodeStatusModel: DesignCodeStatus,
     }

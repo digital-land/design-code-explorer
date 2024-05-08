@@ -65,6 +65,8 @@
           </div>
           {% if design_code.description %}
           <p class="govuk-body govuk-!-font-size-16">{{ design_code.description }}</p>
+          {% else -%}
+          <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-0">No description for this design code</p>
           {% endif %}
         </li>
         {% endfor %}

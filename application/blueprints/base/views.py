@@ -35,7 +35,7 @@ def info():
 
 def _get_all_orgs_with_design_codes():
     dcs = DesignCode.query.all()
-    organisations = [dc.organisation for dc in dcs]
+    organisations = set([dc.organisation for dc in dcs])
     return sorted(organisations, key=lambda org: org.name)
 
 

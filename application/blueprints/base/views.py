@@ -1,5 +1,6 @@
 import geopandas as gpd
 from flask import Blueprint, render_template, request, url_for
+from sqlalchemy import or_
 
 from application.models import (
     DesignCode,
@@ -82,6 +83,13 @@ def design_code_rules():
         DesignCodeCharacteristic.name.asc()
     ).all()
 
+    query = DesignCodeRule.query
+
+    if "organisation" in request.args:
+        org_selection = request.args.getlist("organisation")
+        filter_condition = DesignCodeRule.organisation_id.in_(org_selection)
+        query = query.filter(filter_condition)
+
     if "characteristic" in request.args:
         characteristic_selection = request.args.getlist("characteristic")
         dccs = DesignCodeCharacteristic.query.filter(
@@ -95,9 +103,17 @@ def design_code_rules():
         filter_condition = DesignCodeRule.design_code_rule_categories.overlap(
             rule_categories
         )
-        design_code_rules = DesignCodeRule.query.filter(filter_condition).all()
-    else:
-        design_code_rules = DesignCodeRule.query.all()
+        query = query.filter(filter_condition)
+
+    if "category" in request.args:
+        category_selection = request.args.getlist("category")
+        or_conditions = [
+            DesignCodeRule.design_code_rule_categories.contains([term])
+            for term in category_selection
+        ]
+        query = query.filter(or_(*or_conditions))
+
+    design_code_rules = query.all()
 
     filter_url = url_for("base.design_code_rules")
 

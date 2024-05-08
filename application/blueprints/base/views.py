@@ -67,21 +67,40 @@ def design_codes():
 @base.route("/design-code-rules")
 def design_code_rules():
     organisations = _get_all_orgs_with_design_codes()
-    design_code_rules = DesignCodeRule.query.all()
+
     design_code_rule_categories = DesignCodeRuleCategory.query.order_by(
         DesignCodeRuleCategory.name.asc()
     ).all()
-    design_code_rule_category_characteristics = DesignCodeCharacteristic.query.order_by(
+    design_code_characteristics = DesignCodeCharacteristic.query.order_by(
         DesignCodeCharacteristic.name.asc()
     ).all()
+
+    if "characteristic" in request.args:
+        characteristic_selection = request.args.getlist("characteristic")
+        dccs = DesignCodeCharacteristic.query.filter(
+            DesignCodeCharacteristic.reference.in_(characteristic_selection)
+        ).all()
+        rule_categories = []
+        for dcc in dccs:
+            rule_categories += [
+                rule.reference for rule in dcc.design_code_rule_categories
+            ]
+        filter_condition = DesignCodeRule.design_code_rule_categories.overlap(
+            rule_categories
+        )
+        design_code_rules = DesignCodeRule.query.filter(filter_condition).all()
+    else:
+        design_code_rules = DesignCodeRule.query.all()
+
+    filter_url = url_for("base.design_code_rules")
 
     return render_template(
         "design-code-rules.html",
         design_code_rules=design_code_rules,
         organisations=organisations,
         design_code_rule_categories=design_code_rule_categories,
-        design_code_rule_category_characteristics=design_code_rule_category_characteristics,
-        filter_url=url_for("base.design_codes"),
+        design_code_characteristics=design_code_characteristics,
+        filter_url=filter_url,
     )
 
 

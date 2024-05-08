@@ -7,7 +7,7 @@
   }) %}
   {% set pa_checked = request.args.getlist("characteristic") %}
   <div class="govuk-checkboxes">
-    {% for characteristic in design_code_rule_category_characteristics %}
+    {% for characteristic in design_code_characteristics %}
     <div class="govuk-checkboxes__item">
       <input class="govuk-checkboxes__input" id="characteristic-{{ characteristic['reference'] }}" name="characteristic" type="checkbox" value="{{ characteristic['reference'] }}" {% if characteristic['reference'] in pa_checked %}checked=checked{% endif %}>
       <label class="govuk-label govuk-checkboxes__label" for="characteristic-{{ characteristic['reference'] }}">

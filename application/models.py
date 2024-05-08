@@ -104,7 +104,7 @@ class DesignCodeRule(DateMixin):
     entity: Mapped[Optional[int]] = mapped_column(INTEGER)
     prefix: Mapped[Optional[str]] = mapped_column(Text)
     description: Mapped[Optional[str]] = mapped_column(Text)
-    design_code_categories: Mapped[Optional[list[str]]] = mapped_column(
+    design_code_rule_categories: Mapped[Optional[list[str]]] = mapped_column(
         MutableList.as_mutable(ARRAY(Text))
     )
     organisation_id: Mapped[str] = mapped_column(
@@ -203,7 +203,9 @@ class DesignCodeRuleModel(BaseModel):
     prefix: Optional[str]
     entity: Optional[int]
     description: Optional[str]
-    design_code_categories: Optional[list[str]] = Field(alias="design-code-categories")
+    design_code_rule_categories: Optional[list[str]] = Field(
+        alias="design-code-categories"
+    )
     organisation_id: str = Field(alias="organisation")
     design_code_reference: str = Field(alias="design-code")
     documentation_url: Optional[str] = Field(alias="documentation-url")
@@ -212,9 +214,9 @@ class DesignCodeRuleModel(BaseModel):
     end_date: Optional[datetime.date] = Field(alias="end-date")
     entry_date: Optional[datetime.date] = Field(alias="entry-date")
 
-    @field_validator("design_code_categories", mode="before")
+    @field_validator("design_code_rule_categories", mode="before")
     @classmethod
-    def validate_design_code_categories(cls, value: str) -> list[str]:
+    def validate_design_code_rule_categories(cls, value: str) -> list[str]:
         if value:
             categories = value.split(";")
             if isinstance(categories, list):

@@ -1,7 +1,13 @@
 import geopandas as gpd
 from flask import Blueprint, render_template, request, url_for
 
-from application.models import DesignCodeAreaOriginal, DesignCodeOriginal, Organisation
+from application.models import (
+    DesignCode,
+    DesignCodeAreaOriginal,
+    DesignCodeOriginal,
+    DesignCodeStatus,
+    Organisation,
+)
 
 base = Blueprint("base", __name__)
 
@@ -27,6 +33,7 @@ def info():
 @base.route("/design-codes")
 def design_codes():
     organisations = Organisation.query.all()
+    statuses = DesignCodeStatus.query.all()
 
     if "organisation" in request.args:
         selection = request.args.getlist("organisation")
@@ -35,18 +42,17 @@ def design_codes():
             for ref in selection
         ]
         selected_org_entities = [org.organisation for org in orgs]
-        filter_condition = DesignCodeOriginal.organisation_entity.in_(
-            selected_org_entities
-        )
-        dcs = DesignCodeOriginal.query.filter(filter_condition).all()
+        filter_condition = DesignCode.organisation_entity.in_(selected_org_entities)
+        dcs = DesignCode.query.filter(filter_condition).all()
     else:
-        dcs = DesignCodeOriginal.query.all()
+        dcs = DesignCode.query.all()
 
     return render_template(
         "design-codes.html",
         design_codes=dcs,
         organisations=organisations,
         filter_url=url_for("base.design_codes"),
+        design_code_statuses=statuses,
     )
 
 

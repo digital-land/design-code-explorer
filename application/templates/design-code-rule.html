@@ -33,4 +33,73 @@
     <h1 class="govuk-heading-xl">{{ design_code_rule['name'] if design_code_rule['name'] else design_code_rule['reference'] }}</h1>
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card govuk-!-margin-bottom-9">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Design code
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+        <p class="govuk-body govuk-!-margin-bottom-0">This rule belongs to the <a href="{{ url_for('base.design_code', reference=design_code_rule.design_code.reference)}}" class="govuk-link">{{ design_code_rule.design_code.name }}</a></p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="app-summary-card">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Design code rule details
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+        <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Reference</dt>
+            <dd class="govuk-summary-list__value">{{design_code_rule.reference}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Name</dt>
+            <dd class="govuk-summary-list__value">{{design_code_rule.name}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Description</dt>
+            <dd class="govuk-summary-list__value">{{design_code_rule.description if design_code_rule.description}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Categories</dt>
+            <dd class="govuk-summary-list__value">
+              {% if design_code_rule.design_code_categories %}
+              <ul class="govuk-list govuk-list--bullet">
+                {% for category in design_code_rule.design_code_categories %}
+                <li>{{ category }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation</dt>
+            <dd class="govuk-summary-list__value">{{design_code_rule.organisation}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Documentation URL</dt>
+            <dd class="govuk-summary-list__value">
+              {% if design_code_rule.documentation_url %}
+              <a class="govuk-link"
+              href="{{design_code_rule.documentation_url}}">{{design_code_rule.documentation_url}}</a>
+              {% endif %}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </div>
+</div>
+
 {% endblock %}

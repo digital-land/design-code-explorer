@@ -252,8 +252,11 @@ def map():
     geojson = {"type": "FeatureCollection", "features": []}
 
     dcas = DesignCodeArea.query.all()
+    valid_design_code_areas = []
+
     for dca in dcas:
         if dca.geojson is not None and dca.geojson != "null":
+            valid_design_code_areas.append(dca)
             # if geojson is featureCollection extract features
             if dca.geojson["type"] == "FeatureCollection":
                 geojson["features"].extend(dca.geojson["features"])
@@ -265,7 +268,7 @@ def map():
 
     return render_template(
         "map.html",
-        design_code_areas=design_code_areas,
+        design_code_areas=valid_design_code_areas,
         geojson=geojson,
         coords=coords,
         bounding_box=bounding_box,

@@ -17,6 +17,9 @@
       'text': "Home",
       'href': url_for('base.index')
       },
+      {
+        'text': "Map of design code areas"
+      }
     ]
   })
 }}
@@ -25,11 +28,18 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">Design code library</span>
     <h1 class="govuk-heading-l">Map of design code areas</h1>
 
+    <p class="govuk-body">Showing {{ design_code_areas|length }} design code areas.</p>
+    <p class="govuk-body">These are a combination of areas covering a whole Design Code and more specific areas where certain rules apply.</p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
     <div class="app-map-wrapper">
-      <div id="mapid" style="height: 400px;">
-      </div>
+      <div id="mapid" style="height: 600px;"></div>
       <script>
         const AppMap = {}
         AppMap.mapID = 'mapid';
@@ -41,6 +51,27 @@
           }
         }
       </script>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+
+    <div class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-0" id="related-links">
+        Related
+      </h2>
+      <p class="govuk-hint govuk-!-font-size-14">Explore this library</p>
+      <nav role="navigation" aria-labelledby="related-links">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li>
+            <a class="govuk-link" href="{{url_for('base.design_codes')}}">Find Design Codes</a>
+          </li>
+          <li>
+            <a class="govuk-link" href="{{url_for('base.design_code_rules')}}">Find design code rules</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
 </div>
 <script>

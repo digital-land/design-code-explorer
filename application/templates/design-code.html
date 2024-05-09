@@ -62,7 +62,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Design code status</dt>
-            <dd class="govuk-summary-list__value">{{design_code.design_code_status}}</dd>
+            <dd class="govuk-summary-list__value">{{design_code.design_code_status if design_code.design_code_status}}</dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Document URL</dt>
@@ -118,8 +118,8 @@
       <div class="app-summary-card__body">
         <p class="govuk-body">There are {{ design_code.design_code_rules|length }} rules in this Design Code</p>
         <ul class="govuk-list">
-          {% for rule in design_code.design_code_rules %}
-          <li><a href="{{ url_for('base.design_code_rule', reference=rule.reference) }}" class="govuk-link">{{ rule.name }}</a></li>
+          {% for rule in design_code.design_code_rules|sort(attribute='name') %}
+          <li><a href="{{ url_for('base.design_code_rule', reference=rule.reference) }}" class="govuk-link">{{ rule.name if rule.name else rule.reference }}</a></li>
           {% endfor %}
         </ul>
       </div>

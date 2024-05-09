@@ -34,8 +34,20 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <section class="app-summary-card">
+
+  <div class="govuk-grid-column-one-quarter">
+    <nav>
+      <p class="govuk-body">Contents</p>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="#design-code">Design Code details</a></li>
+        <li><a class="govuk-link" href="#design-code-rules">Rules in Design Code</a></li>
+        <li><a class="govuk-link" href="#design-code-area">Design code area</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="govuk-grid-column-three-quarters">
+    <section id="design-code" class="app-summary-card">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
           Design code
@@ -86,30 +98,8 @@
         {% endif %}
       </div>
     </section>
-  </div>
-  <div class="govuk-grid-column-one-third">
 
-    <div class="app-related-items" role="complementary">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-0" id="view-the-data">
-        Download data
-      </h2>
-      <p class="govuk-hint govuk-!-font-size-14">You can download this record as</p>
-      <nav role="navigation" aria-labelledby="view-the-data">
-        <ul class="govuk-list govuk-!-font-size-16">
-          <li>
-            <a class="govuk-link"
-              href="#geojson">GeoJSON</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
-  </div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <section class="app-summary-card govuk-!-margin-top-6">
+    <section id="design-code-rules" class="app-summary-card govuk-!-margin-top-6">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
           Design code rules
@@ -124,12 +114,8 @@
         </ul>
       </div>
     </section>
-  </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <section class="app-summary-card govuk-!-margin-top-6">
+    <section id="design-code-area" class="app-summary-card govuk-!-margin-top-6">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
           Design code areas
@@ -137,10 +123,10 @@
       </header>
       <div class="app-summary-card__body">
       {%- if design_code.design_code_areas|length %}
-        <p class="govuk-body">This design code applies to the following areas.</p>
+        <p class="govuk-body">This design code defines the following areas.</p>
         {%- set map_id = "map-123" %}
         <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code.design_code_areas %}
-          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=1)}}">{{ area['reference']}}</a>{{ "" if loop.last else ', ' }}
+          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=1)}}">{{ area['name'] if area['name'] else area['reference']}}</a>{{ "" if loop.last else ', ' }}
         {% endfor %}
          </p>
         <div class="app-map-wrapper">

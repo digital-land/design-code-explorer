@@ -2,6 +2,7 @@ import csv
 import json
 import os
 
+import click
 import requests
 from flask.cli import AppGroup
 
@@ -219,3 +220,11 @@ def merge_data():
             print(f"Merged design code area {dca.reference}")
 
     print("Done merging data")
+
+
+@data_cli.command("reload")
+@click.pass_context
+def reload(ctx):
+    ctx.invoke(drop_data)
+    ctx.invoke(load_data)
+    ctx.invoke(merge_data)

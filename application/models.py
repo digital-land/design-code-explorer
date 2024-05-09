@@ -300,10 +300,24 @@ class DesignCodeAreaModel(BaseModel):
     organisation_id: str = Field(alias="organisation")
     design_code_area_type: Optional[str] = Field(alias="design-code-area-type")
     design_code_reference: str = Field(alias="design-code")
-    design_code_rules: Optional[str] = Field(alias="design-code-rules")
+    design_code_rules: Optional[list[str]] = Field(alias="design-code-rules")
     documentation_url: Optional[str] = Field(alias="documentation-url")
     document_url: Optional[str] = Field(alias="document-url")
     start_date: Optional[datetime.date] = Field(alias="start-date")
     end_date: Optional[datetime.date] = Field(alias="end-date")
     entry_date: Optional[datetime.date] = Field(alias="entry-date")
     geojson: Optional[dict]
+
+    @field_validator("design_code_rules", mode="before")
+    @classmethod
+    def validate_design_code_rules(cls, value: str) -> list[str]:
+        if value:
+            if ";" in value:
+                categories = value.split(";")
+                if len(categories) > 0:
+                    categories = [val.strip() for val in categories]
+                    return categories
+            else:
+                return None
+        else:
+            None

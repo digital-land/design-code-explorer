@@ -4,6 +4,7 @@ from sqlalchemy import or_
 
 from application.models import (
     DesignCode,
+    DesignCodeArea,
     DesignCodeAreaOriginal,
     DesignCodeCharacteristic,
     DesignCodeOriginal,
@@ -238,11 +239,17 @@ def design_code_area(entity):
 
 @base.route("/map")
 def map():
-    design_code_areas = DesignCodeAreaOriginal.query.all()
     geojson = {"type": "FeatureCollection", "features": []}
 
-    for dca in design_code_areas:
-        geojson["features"].append(dca.geojson)
+    dcas = DesignCodeArea.query.all()
+    for dca in dcas:
+        if dca.geojson is not None and dca.geojson != "null":
+            # if geojson is featureCollection extract features
+            if dca.geojson["type"] == "FeatureCollection":
+                geojson["features"].extend(dca.geojson["features"])
+            # else add feature to our main FeatureCollection
+            else:
+                geojson["features"].append(dca.geojson)
 
     coords, bounding_box = _get_centre_and_bounds(geojson)
 

@@ -134,7 +134,9 @@ class DesignCodeArea(DateMixin):
         ForeignKey("design_code.reference")
     )
     design_code: Mapped["DesignCode"] = relationship(backref="design_code_areas")
-    design_code_rules: Mapped[Optional[str]] = mapped_column(Text)
+    design_code_rules: Mapped[Optional[list[str]]] = mapped_column(
+        MutableList.as_mutable(ARRAY(Text))
+    )
     documentation_url: Mapped[Optional[str]] = mapped_column(Text)
     document_url: Mapped[Optional[str]] = mapped_column(Text)
     geojson = db.Column(JSON)

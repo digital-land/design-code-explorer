@@ -157,24 +157,32 @@ def design_code_areas():
 def design_code(reference):
     dc = DesignCode.query.get(reference)
     organisation = dc.organisation
-    design_code_areas = [
-        dca
-        for dca in DesignCodeAreaOriginal.query.all()
-        if dca.json is not None and dca.json["design-code"] == dc.reference
-    ]
-    if design_code_areas:
-        geojson = {"type": "FeatureCollection", "features": []}
+    # design_code_areas = [
+    #     dca
+    #     for dca in DesignCodeAreaOriginal.query.all()
+    #     if dca.json is not None and dca.json["design-code"] == dc.reference
+    # ]
+    geojson, coords, bounding_box = None, None, None
+    if dc.design_code_areas:
+        geojson_available = False
+        # this should handle newer areas from shapefiles
+        if len(dc.design_code_areas) == 1:
+            geojson = dc.design_code_areas[0].geojson
+            geojson_available = True
+        else:
+            geojson = {"type": "FeatureCollection", "features": []}
 
-        # if org boundary need uncomment this
-        # for feature in organisation.geojson["features"]:
-        #     geojson["features"].append(feature)
+            # if org boundary need uncomment this
+            # for feature in organisation.geojson["features"]:
+            #     geojson["features"].append(feature)
 
-        for area in design_code_areas:
-            geojson["features"].append(area.geojson)
+            for area in dc.design_code_areas:
+                if area.geojson is not None:
+                    geojson_available = True
+                    geojson["features"].append(area.geojson)
 
-        coords, bounding_box = _get_centre_and_bounds(geojson)
-    else:
-        geojson, coords, bounding_box = None, None, None
+        if geojson_available:
+            coords, bounding_box = _get_centre_and_bounds(geojson)
 
     return render_template(
         "design-code.html",

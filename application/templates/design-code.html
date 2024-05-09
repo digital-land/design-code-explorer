@@ -136,11 +136,11 @@
         </h2>
       </header>
       <div class="app-summary-card__body">
-      {%- if design_code_areas|length %}
+      {%- if design_code.design_code_areas|length %}
         <p class="govuk-body">This design code applies to the following areas.</p>
         {%- set map_id = "map-123" %}
-        <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code_areas %}
-          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=area.entity)}}">{{ area['reference']}}</a>{{ "" if loop.last else ', ' }}
+        <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code.design_code_areas %}
+          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=1)}}">{{ area['reference']}}</a>{{ "" if loop.last else ', ' }}
         {% endfor %}
          </p>
         <div class="app-map-wrapper">
@@ -160,6 +160,15 @@
       {%- else %}
         <p class="govuk-hint govuk-!-margin-bottom-0">There are currently no areas where this deisgn code is applied.</p>
       {% endif -%}
+      {% if bounding_box is none %}
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-visually-hidden">Warning</span>
+          Geojson for this area not available.
+        </strong>
+      </div>
+      {% endif %}
       </div>
     </section>
   </div>

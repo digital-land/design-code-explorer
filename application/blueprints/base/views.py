@@ -169,6 +169,7 @@ def design_code(reference):
         # this should handle newer areas from shapefiles
         if (
             len(dc.design_code_areas) == 1
+            and dc.design_code_areas[0].geojson is not None
             and dc.design_code_areas[0].geojson["type"] == "FeatureCollection"
         ):
             geojson = dc.design_code_areas[0].geojson

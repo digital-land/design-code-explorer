@@ -86,8 +86,16 @@
   }
 
   function onEachFeature(feature, layer) {
-    props = "<h3>Name: " + feature.properties["name"] + "</h3>"
+    const heading = feature.properties["name"] ? feature.properties["name"]:feature.properties["reference"]
+    props = "<h3 class='govuk-heading-xs govuk-!-margin-bottom-1'>" + heading + "</h3>"
     props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] + "'>" + feature.properties["reference"] + "</a></p>"
+    if ('design-code-rules' in feature.properties) {
+      const rules = feature.properties['design-code-rules'].split(";")
+      props += "<p>" + rules.length + " rules apply to this area.</p>"
+    }
+    if ('design-code' in feature.properties) {
+      props += "<p><a href='/design-code/" + feature.properties['design-code'] +"'>See design code where this area was defined.</p>"
+    }
     layer.bindPopup(props)
   }
 

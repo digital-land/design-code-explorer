@@ -175,25 +175,16 @@ def design_code(reference):
     geojson, coords, bounding_box = None, None, None
     if dc.design_code_areas:
         geojson_available = False
+        geojson = {"type": "FeatureCollection", "features": []}
         # this should handle newer areas from shapefiles
-        if (
-            len(dc.design_code_areas) == 1
-            and dc.design_code_areas[0].geojson is not None
-            and dc.design_code_areas[0].geojson["type"] == "FeatureCollection"
-        ):
-            geojson = dc.design_code_areas[0].geojson
-            geojson_available = True
-        else:
-            geojson = {"type": "FeatureCollection", "features": []}
-
-            # if org boundary need uncomment this
-            # for feature in organisation.geojson["features"]:
-            #     geojson["features"].append(feature)
-
+        if len(dc.design_code_areas):
             for area in dc.design_code_areas:
-                if area.geojson is not None:
+                if area.geojson is not None and area.geojson != "null":
                     geojson_available = True
-                    geojson["features"].append(area.geojson)
+                    if area.geojson["type"] == "FeatureCollection":
+                        geojson["features"].extend(area.geojson["features"])
+                    else:
+                        geojson["features"].append(area.geojson)
 
         if geojson_available:
             coords, bounding_box = _get_centre_and_bounds(geojson)

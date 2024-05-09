@@ -5,6 +5,7 @@
     {
     "type": "Feature",
     "properties": {
+      "reference": "trafford-park-industrial-area",
       "name": "Trafford Park Industrial Area",
       "design-code-area-type": "industrial-area",
       "design-code-rules": "trafford-design-code-LNL-5;trafford-design-code-TBSM-2;trafford-design-code-APG-1;trafford-design-code-TBET-3",

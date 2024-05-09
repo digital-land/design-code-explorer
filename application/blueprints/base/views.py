@@ -61,6 +61,15 @@ def design_codes():
         filter_condition = DesignCode.design_code_status.in_(status_selection)
         query = query.filter(filter_condition)
 
+    if "category" in request.args:
+        category_selection = request.args.getlist("category")
+        filter_condition = DesignCode.reference.in_(
+            DesignCodeRule.query.filter(
+                DesignCodeRule.design_code_rule_categories.overlap(category_selection)
+            ).with_entities(DesignCodeRule.design_code_reference)
+        )
+        query = query.filter(filter_condition)
+
     dcs = query.all()
 
     return render_template(

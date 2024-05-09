@@ -166,7 +166,10 @@ def design_code(reference):
     if dc.design_code_areas:
         geojson_available = False
         # this should handle newer areas from shapefiles
-        if len(dc.design_code_areas) == 1:
+        if (
+            len(dc.design_code_areas) == 1
+            and dc.design_code_areas[0].geojson["type"] == "FeatureCollection"
+        ):
             geojson = dc.design_code_areas[0].geojson
             geojson_available = True
         else:

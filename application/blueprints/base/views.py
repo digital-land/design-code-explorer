@@ -204,7 +204,29 @@ def design_code(reference):
 def design_code_rule(reference):
     design_code_rule = DesignCodeRule.query.get(reference)
 
-    return render_template("design-code-rule.html", design_code_rule=design_code_rule)
+    dcas = DesignCodeArea.query.filter(
+        DesignCodeArea.design_code_rules.contains([reference])
+    ).all()
+
+    has_specific_areas = False
+    # if specific areas, use them
+    if len(dcas):
+        areas = dcas
+        has_specific_areas = True
+    # else get area for whole design code
+    else:
+        areas = design_code_rule.design_code.design_code_areas
+    geojson, coords, bounding_box = _prepare_geojson_for_map(areas)
+
+    return render_template(
+        "design-code-rule.html",
+        design_code_rule=design_code_rule,
+        design_code_areas=areas,
+        geojson=geojson,
+        coords=coords,
+        bounding_box=bounding_box,
+        has_specific_areas=has_specific_areas,
+    )
 
 
 @base.route("/design-code-area/<int:entity>")
@@ -264,3 +286,23 @@ def map():
         coords=coords,
         bounding_box=bounding_box,
     )
+
+
+def _prepare_geojson_for_map(areas):
+    geojson, coords, bounding_box = None, None, None
+    geojson_available = False
+    geojson = {"type": "FeatureCollection", "features": []}
+    # this should handle newer areas from shapefiles
+    if len(areas):
+        for area in areas:
+            if area.geojson is not None and area.geojson != "null":
+                geojson_available = True
+                if area.geojson["type"] == "FeatureCollection":
+                    geojson["features"].extend(area.geojson["features"])
+                else:
+                    geojson["features"].append(area.geojson)
+
+    if geojson_available:
+        coords, bounding_box = _get_centre_and_bounds(geojson)
+
+    return geojson, coords, bounding_box

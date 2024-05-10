@@ -231,7 +231,7 @@ class DesignCodeRuleModel(BaseModel):
                     categories = [val.strip() for val in categories]
                     return categories
             else:
-                return None
+                return [value]
         else:
             None
 
@@ -312,12 +312,11 @@ class DesignCodeAreaModel(BaseModel):
     @classmethod
     def validate_design_code_rules(cls, value: str) -> list[str]:
         if value:
-            if ";" in value:
-                categories = value.split(";")
-                if len(categories) > 0:
-                    categories = [val.strip() for val in categories]
-                    return categories
+            categories = value.split(";")
+            if len(categories) > 0:
+                categories = [val.strip() for val in categories]
+                return categories
             else:
-                return None
+                return [value]
         else:
             None

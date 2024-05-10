@@ -49,16 +49,22 @@ def design_codes():
     ).all()
 
     query = DesignCode.query
+    query_params = {}
 
     if "organisation" in request.args:
         org_selection = request.args.getlist("organisation")
         filter_condition = DesignCode.organisation_id.in_(org_selection)
         query = query.filter(filter_condition)
+        query_params["organisation"] = {
+            "name": "Organisation",
+            "selection": org_selection,
+        }
 
     if "status" in request.args:
         status_selection = request.args.getlist("status")
         filter_condition = DesignCode.design_code_status.in_(status_selection)
         query = query.filter(filter_condition)
+        query_params["status"] = {"name": "Status", "selection": status_selection}
 
     if "category" in request.args:
         category_selection = request.args.getlist("category")
@@ -68,6 +74,10 @@ def design_codes():
             ).with_entities(DesignCodeRule.design_code_reference)
         )
         query = query.filter(filter_condition)
+        query_params["category"] = {
+            "name": "Rules with category",
+            "selection": category_selection,
+        }
 
     dcs = query.all()
 
@@ -78,6 +88,7 @@ def design_codes():
         filter_url=url_for("base.design_codes"),
         design_code_statuses=statuses,
         design_code_rule_categories=design_code_rule_categories,
+        query_params=query_params,
     )
 
 
@@ -99,7 +110,10 @@ def design_code_rules():
         org_selection = request.args.getlist("organisation")
         filter_condition = DesignCodeRule.organisation_id.in_(org_selection)
         query = query.filter(filter_condition)
-        query_params["organisation"] = {"name": ""}
+        query_params["organisation"] = {
+            "name": "Organisation",
+            "selection": org_selection,
+        }
 
     if "characteristic" in request.args:
         characteristic_selection = request.args.getlist("characteristic")
@@ -115,6 +129,10 @@ def design_code_rules():
             rule_categories
         )
         query = query.filter(filter_condition)
+        query_params["characteristic"] = {
+            "name": "Characteristic",
+            "selection": characteristic_selection,
+        }
 
     if "category" in request.args:
         category_selection = request.args.getlist("category")
@@ -123,6 +141,7 @@ def design_code_rules():
             for term in category_selection
         ]
         query = query.filter(or_(*or_conditions))
+        query_params["category"] = {"name": "Category", "selection": category_selection}
 
     design_code_rules = query.order_by(DesignCodeRule.name.asc()).all()
 
@@ -135,6 +154,7 @@ def design_code_rules():
         design_code_rule_categories=design_code_rule_categories,
         design_code_characteristics=design_code_characteristics,
         filter_url=filter_url,
+        query_params=query_params,
     )
 
 

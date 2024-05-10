@@ -26,14 +26,30 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
-
     {% include 'partials/design-code-rule-facets.html' %}
   </div>
+
   <div class="govuk-grid-column-two-thirds">
     <div class="app-results-summary">
       {% set count = design_code_rules|count %}
       <h2 class="app-results-summary__title">Showing {{ count }} design code rules</h2>
-      <hr class="govuk-section-break--m">
+
+      <div class="app-applied-filters">
+      {% if query_params.keys()|length %}
+        {% for filter_type, filter in query_params.items() %}
+        <div class="app-applied-filter__group">
+          <span class="app-applied-filter__name govuk-!-font-weight-bold">{{ filter.name }}:</span>
+          {% for v in filter.selection %}
+          <span class="app-applied-filter__item">{{ v }}</span>
+          {% endfor %}
+        </div>
+        {% endfor %}
+        <div class="app-applied-filter__group">
+          <p class="app-applied-filter__cancel"><a href="{{ url_for('base.design_code_rules') }}" class="govuk-link">Clear all filters</a></p>
+        </div>
+      {% endif %}
+      </div>
+
       <ul class="govuk-list">
         {% for design_code_rule in design_code_rules %}
         <li class="govuk-!-margin-bottom-4 app-list-item">

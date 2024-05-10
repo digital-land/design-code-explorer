@@ -201,40 +201,5 @@
 {% endblock %}
 
 {% block pageScripts %}
-<script>
-  colours = {
-      'HSG2 western parcel': { 'color': '#d73939' },
-      'HSG2 eastern parcel': { 'color': '#3988d7' },
-      'BL6': { 'color': '#44cccc' },
-      'BL7': { 'color': '#4488cc' },
-      'BL8': { 'color': '#cc4488' },
-      'BL9': { 'color': '#44cc44' },
-      'BL10': { 'color': '#8844cc' },
-      'industrial-area': { 'color': '#e6c700' },
-    }
-
-    function onEachFeature(feature, layer) {
-      props = "<h3>Name: " + feature.properties["name"] + "</h3>"
-      props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] +"'>" + feature.properties["reference"]+"</a></p>"
-      layer.bindPopup(props)
-    }
-
-    function setStyle(feature) {
-      reference = feature.properties["reference"]
-      if (reference in colours) {
-        return { "color": colours[reference].color };
-      }
-      if ('design-code-area-type' in feature.properties) {
-        if (feature.properties['design-code-area-type'] in colours) {
-          return { "color": colours[feature.properties['design-code-area-type']].color };
-        }
-      }
-    }
-
-  let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
-  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, { onEachFeature: onEachFeature, style: setStyle}).addTo(map)
-  const bbox = {{ bounding_box | tojson }}
-  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
-</script>
+{% include 'partials/area-map-script.html' %}
 {% endblock pageScripts %}

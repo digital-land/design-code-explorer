@@ -74,42 +74,8 @@
 
   </div>
 </div>
-<script>
-  colours = {
-    'HSG2 western parcel': { 'color': '#d73939' },
-    'HSG2 eastern parcel': { 'color': '#3988d7' },
-    'BL6': { 'color': '#44cccc' },
-    'BL7': { 'color': '#4488cc' },
-    'BL8': { 'color': '#cc4488' },
-    'BL9': { 'color': '#44cc44' },
-    'BL10': { 'color': '#8844cc' },
-  }
+{% endblock %}
 
-  function onEachFeature(feature, layer) {
-    const heading = feature.properties["name"] ? feature.properties["name"]:feature.properties["reference"]
-    props = "<h3 class='govuk-heading-xs govuk-!-margin-bottom-1'>" + heading + "</h3>"
-    props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] + "'>" + feature.properties["reference"] + "</a></p>"
-    if ('design-code-rules' in feature.properties) {
-      const rules = feature.properties['design-code-rules'].split(";")
-      props += "<p>" + rules.length + " rules apply to this area.</p>"
-    }
-    if ('design-code' in feature.properties) {
-      props += "<p><a href='/design-code/" + feature.properties['design-code'] +"'>See design code where this area was defined.</p>"
-    }
-    layer.bindPopup(props)
-  }
-
-  function setStyle(feature) {
-    reference = feature.properties["reference"]
-    if (reference in colours) {
-      return { "color": colours[reference].color };
-    }
-  }
-
-  let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
-  var boundary_layer = L.geoJSON(AppMap.geography.featureCollection, { onEachFeature: onEachFeature, style: setStyle }).addTo(map)
-  const bbox = {{ bounding_box | tojson }}
-  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]])
-</script>
-{% endblock content %}
+{% block pageScripts %}
+{% include 'partials/area-map-script.html' %}
+{% endblock pageScripts %}

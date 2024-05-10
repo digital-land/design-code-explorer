@@ -140,7 +140,7 @@
         <p class="govuk-body">This design code defines the following areas.</p>
         {%- set map_id = "map-123" %}
         <p class="govuk-hint govuk-!-margin-top-0">Area(s): {% for area in design_code.design_code_areas %}
-          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', entity=1)}}">{{ area['name'] if area['name'] else area['reference']}}</a>{{ "" if loop.last else ', ' }}
+          <a class="govuk-link govuk-link--text-colour" href="{{url_for('base.design_code_area', reference=area.reference)}}">{{ area['name'] if area['name'] else area['reference']}}</a>{{ "" if loop.last else ', ' }}
         {% endfor %}
          </p>
         <div class="app-map-wrapper">

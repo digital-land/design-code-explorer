@@ -69,3 +69,15 @@
     margin-bottom: 0;
   }
 }
+
+.app-missing-item {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 5px 10px 5px 15px;
+  border-left: 4px solid govuk-colour("yellow");
+  color: govuk-shade(govuk-colour("yellow"), 65%);
+
+  & *:last-child {
+    margin-bottom: 0;
+  }
+}

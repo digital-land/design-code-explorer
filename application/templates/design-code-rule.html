@@ -164,8 +164,10 @@
         {% if has_specific_areas %}
         <p class="govuk-body">This code applies to the following areas:</p>
         {% else %}
-        <p class="govuk-body">No specific areas provided.</p>
-        <p class="govuk-body">So rule COULD apply to any area found in the {{ design_code_rule.design_code.name }}.</p>
+        <div class="app-missing-item govuk-!-margin-bottom-3">
+          <p class="govuk-body">No specific areas provided.</p>
+          <p class="govuk-body">So rule COULD apply to any area found in the {{ design_code_rule.design_code.name }}.</p>
+        </div>
         {% endif %}
 
         {% if bounding_box %}

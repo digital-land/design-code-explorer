@@ -56,3 +56,16 @@
     margin-bottom: 5px;
   }
 }
+
+.app-rule-list__secondary-content {
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

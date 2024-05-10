@@ -7592,6 +7592,17 @@
   .app-summary-card__actions {
     display: none; } }
 
+.app-summary-card--parent {
+  --box-primary-colour: #5694ca;
+  --box-secondary-colour: #f3f2f1;
+  border-color: var(--box-primary-colour); }
+  .app-summary-card--parent .app-summary-card__header {
+    background: var(--box-primary-colour); }
+  .app-summary-card--parent .app-summary-card__title {
+    color: var(--box-secondary-colour); }
+  .app-summary-card--parent .app-summary-card__body {
+    background: var(--box-secondary-colour); }
+
 .govuk-tag {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -7646,3 +7657,11 @@
 .app-list-item__content p {
   margin-top: 5px;
   margin-bottom: 5px; }
+
+.app-rule-list__secondary-content {
+  margin-top: 5px;
+  margin-bottom: 10px; }
+  .app-rule-list__secondary-content p:first-child {
+    margin-top: 0; }
+  .app-rule-list__secondary-content p:last-child {
+    margin-bottom: 0; }

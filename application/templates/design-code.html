@@ -110,7 +110,20 @@
         <p class="govuk-body">There are {{ design_code.design_code_rules|length }} rules in this Design Code</p>
         <ul class="govuk-list">
           {% for rule in design_code.design_code_rules|sort(attribute='name') %}
-          <li><a href="{{ url_for('base.design_code_rule', reference=rule.reference) }}" class="govuk-link">{{ rule.name if rule.name else rule.reference }}</a></li>
+          <li>
+            <a href="{{ url_for('base.design_code_rule', reference=rule.reference) }}" class="govuk-link">{{ rule.name if rule.name else rule.reference }}</a>
+            <section class="app-rule-list__secondary-content">
+              {% if rule.design_code_rule_categories %}
+              <p class="govuk-!-font-size-16">
+                Categories: {% for category in rule.design_code_rule_categories %}
+                <a href="{{ url_for('base.design_code_rules', category=category) }}" class="govuk-link govuk-link--text-colour">{{ category }}</a>
+                {{- '' if loop.last else ", "}}{% endfor %}
+              </p>
+              {% else %}
+              <p class="govuk-!-font-size-16">No categories provided</p>
+              {% endif %}
+            </section>
+          </li>
           {% endfor %}
         </ul>
       </div>

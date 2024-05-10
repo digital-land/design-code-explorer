@@ -59,14 +59,14 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <section class="app-summary-card govuk-!-margin-bottom-9">
+    <section class="app-summary-card govuk-!-margin-bottom-9 app-summary-card--parent">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
-          Design code
+          Belongs to
         </h2>
       </header>
       <div class="app-summary-card__body">
-        <p class="govuk-body govuk-!-margin-bottom-0">This rule belongs to the <a href="{{ url_for('base.design_code', reference=design_code_rule.design_code.reference)}}" class="govuk-link">{{ design_code_rule.design_code.name }}</a></p>
+        <p class="govuk-body govuk-!-margin-bottom-0">This rule is defined in the <a href="{{ url_for('base.design_code', reference=design_code_rule.design_code.reference)}}" class="govuk-link">{{ design_code_rule.design_code.name }}</a></p>
       </div>
     </section>
   </div>
@@ -127,7 +127,7 @@
               {% if design_code_rule.design_code_rule_categories %}
               <ul class="govuk-list govuk-list--bullet">
                 {% for category in design_code_rule.design_code_rule_categories %}
-                <li>{{ category }}</li>
+                <li><a href="{{ url_for('base.design_code_rules', category=category) }}" class="govuk-link">{{ category }}</a></li>
                 {% endfor %}
               </ul>
               {% endif %}

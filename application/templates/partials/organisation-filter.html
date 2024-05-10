@@ -1,12 +1,7 @@
 <!-- filter by publishing organisation -->
 <div class="govuk-form-group">
-  {% call dlFilterGroup({
-    "title": "Organisation",
-    "is_open": True,
-    "selected": 0
-  }) %}
-  {% set pa_checked = request.args.getlist("organisation") %}
-  <div class="govuk-checkboxes">
+  {% set checkboxesHTML %}
+    {% set pa_checked = request.args.getlist("organisation") %}
     {% for org in organisations %}
     <div class="govuk-checkboxes__item">
       <input class="govuk-checkboxes__input" id="organisation-{{ org['reference'] }}" name="organisation" type="checkbox" value="{{ org['organisation'] }}" {% if org['organisation'] in pa_checked %}checked=checked{% endif %}>
@@ -15,6 +10,17 @@
       </label>
     </div>
     {% endfor %}
-  </div>
+  {% endset %}
+
+  {% call dlFilterGroup({
+    "title": "Organisation",
+    "is_open": True,
+    "selected": 0
+  }) %}
+
+  {{ dlFilterCheckboxes({
+    "uniqueID": "167824",
+    "checkboxesHTML": checkboxesHTML
+  }) }}
   {% endcall %}
 </div>

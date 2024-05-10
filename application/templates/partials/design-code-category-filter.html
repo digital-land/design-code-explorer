@@ -1,12 +1,7 @@
 <!-- filter by design code status -->
 <div class="govuk-form-group">
-  {% call dlFilterGroup({
-    "title": "Contains rule of type",
-    "is_open": True,
-    "selected": 0
-  }) %}
-  {% set pa_checked = request.args.getlist("category") %}
-  <div class="govuk-checkboxes">
+  {% set checkboxesHTML %}
+    {% set pa_checked = request.args.getlist("category") %}
     {% for category in design_code_rule_categories %}
     <div class="govuk-checkboxes__item">
       <input class="govuk-checkboxes__input" id="category-{{ category['reference'] }}" name="category" type="checkbox" value="{{ category['reference'] }}" {% if category['reference'] in pa_checked %}checked=checked{% endif %}>
@@ -15,6 +10,16 @@
       </label>
     </div>
     {% endfor %}
-  </div>
+  {% endset %}
+
+  {% call dlFilterGroup({
+    "title": "Contains rule of type",
+    "is_open": True,
+    "selected": 0
+  }) %}
+    {{- dlFilterCheckboxes({
+      "uniqueID": "5556766",
+      "checkboxesHTML": checkboxesHTML
+    }) -}}
   {% endcall %}
 </div>

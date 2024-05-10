@@ -35,6 +35,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
+    <section class="app-summary-card govuk-!-margin-bottom-9 app-summary-card--parent">
+      <header class="app-summary-card__header">
+        <h2 class="app-summary-card__title">
+          Belongs to
+        </h2>
+      </header>
+      <div class="app-summary-card__body">
+        <p class="govuk-body govuk-!-margin-bottom-0">This area is defined in the <a href="{{ url_for('base.design_code', reference=design_code.reference)}}" class="govuk-link">{{ design_code.name }}</a></p>
+      </div>
+    </section>
+
     <section class="app-summary-card">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
@@ -82,7 +94,13 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Design code rules</dt>
-            <dd class="govuk-summary-list__value">{{design_code_area.design_code_rules if design_code_area.design_code_rules}}</dd>
+            <dd class="govuk-summary-list__value">
+              {% if design_code_area.design_code_rules %}
+              {% for rule in design_code_area.design_code_rules %}
+                <a href="{{ url_for('base.design_code_rule', reference=rule )}}" class="govuk-link">{{ rule }}</a>{{ "" if loop.last else ", "}}
+              {% endfor %}
+              {% endif %}
+            </dd>
           </div>
         </dl>
       </div>
@@ -106,6 +124,10 @@
             <a class="govuk-link"
               href="{{url_for('base.design_code', reference=design_code.reference)}}">Design code</a>
           </li>
+          <li>
+            <a class="govuk-link"
+              href="#design-code-rules">Design code rules</a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -127,25 +149,47 @@
   </div>
 </div>
 
-{% if design_code %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <section class="app-summary-card govuk-!-margin-top-6">
+    <section id="design-code-rules" class="app-summary-card govuk-!-margin-top-6">
       <header class="app-summary-card__header">
         <h2 class="app-summary-card__title">
-          Applicable design code(s)
+          Applicable design code rules
         </h2>
       </header>
       <div class="app-summary-card__body">
-        <p class="govuk-body">The following design codes apply to this area:</p>
-        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-          <li><a href="{{url_for('base.design_code', reference=design_code.reference)}}" class="govuk-link">{{ design_code['reference'] }}</a> - {{ design_code['name'] }}</li>
+        {% if design_code_rules %}
+        <p class="govuk-body">{{ design_code_rules|length }} design code rule{{ "" if design_code_rules|length == 1 else "s" }} apply to this area.</p>
+        <ul class="govuk-list">
+          {% for rule in design_code_rules|sort(attribute='name') %}
+          <li>
+            <a href="{{ url_for('base.design_code_rule', reference=rule.reference) }}" class="govuk-link">{{ rule.name if rule.name else rule.reference }}</a>
+            <section class="app-rule-list__secondary-content">
+              <p class="govuk-!-font-size-16">
+                From: <a href="{{ url_for('base.design_code', reference=rule.design_code.reference) }}" class="govuk-link govuk-link--text-colour">{{ rule.design_code.name }}</a>
+              </p>
+              {% if rule.design_code_rule_categories %}
+              <p class="govuk-!-font-size-16">
+                Categories: {% for category in rule.design_code_rule_categories %}
+                <a href="{{ url_for('base.design_code_rules', category=category) }}" class="govuk-link govuk-link--text-colour">{{ category }}</a>
+                {{- '' if loop.last else ", "}}{% endfor %}
+              </p>
+              {% else %}
+              <p class="govuk-!-font-size-16">No categories provided</p>
+              {% endif %}
+            </section>
+          </li>
+          {% endfor %}
         </ul>
+        {% else %}
+        <p class="app-missing-item">No design code rules have been assigned to this area.</p>
+        {% endif %}
+
       </div>
     </section>
   </div>
 </div>
-{% endif %}
+
 {% endblock content %}
 
 {% block pageScripts %}

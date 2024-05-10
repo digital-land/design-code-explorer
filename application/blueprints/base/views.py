@@ -256,16 +256,20 @@ def design_code_area(reference):
     design_code = dca.design_code
     organisation = dca.organisation
 
-    # in development plan geography we do coords, bounding_box = _get_centre_and_bounds(development_plan.geography)
-    # but this fails here because it doesn't have a 'features' key
-    # coords, bounding_box = _get_centre_and_bounds(dca)
-
     geojson, coords, bounding_box = _prepare_geojson_for_map([dca])
+
+    rules = None
+    if dca.design_code_rules:
+        rules = DesignCodeRule.query.filter(
+            DesignCodeRule.reference.in_(dca.design_code_rules)
+        ).all()
+
     return render_template(
         "design-code-area.html",
         design_code_area=dca,
         organisation=organisation,
         design_code=design_code,
+        design_code_rules=rules,
         geojson=geojson,
         coords=coords,
         bounding_box=bounding_box,

@@ -7760,6 +7760,9 @@
 .app-rule-list__secondary-content {
   margin-top: 5px;
   margin-bottom: 10px; }
+  .app-rule-list__secondary-content p {
+    margin-top: 5px;
+    margin-bottom: 5px; }
   .app-rule-list__secondary-content p:first-child {
     margin-top: 0; }
   .app-rule-list__secondary-content p:last-child {

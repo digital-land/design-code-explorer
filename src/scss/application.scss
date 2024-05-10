@@ -87,3 +87,63 @@
     margin-bottom: 0;
   }
 }
+
+.app-map-popup__heading {
+  margin-bottom: 5px;
+}
+
+.app-map-popup__content,
+.app-map-popup__footer {
+  p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.app-map-popup__footer {
+  margin-top: 5px;
+  padding: 5px 0;
+  border-top: 1px solid $govuk-border-colour;
+}
+
+.app-map__key {
+  @include govuk-font($size: 16);
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0;
+}
+
+.app-map__key__item {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding-left: 25px;
+  margin-right: 5px;
+
+  &:before {
+    display: inline-block;
+    position: absolute;
+    content: " ";
+    width: 20px;
+    height: 100%;
+    background: #1d70b8;
+    top: 0;
+    left: 0;
+  }
+
+  &--old:before {
+    background: #505a5f;
+  }
+
+  &--industrial:before {
+    background: #d9bc00;
+  }
+}

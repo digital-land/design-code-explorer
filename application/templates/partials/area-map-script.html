@@ -1,26 +1,34 @@
 <script>
   colours = {
-    'HSG2 western parcel': { 'color': '#d73939' },
-    'HSG2 eastern parcel': { 'color': '#3988d7' },
-    'BL6': { 'color': '#44cccc' },
-    'BL7': { 'color': '#4488cc' },
-    'BL8': { 'color': '#cc4488' },
-    'BL9': { 'color': '#44cc44' },
-    'BL10': { 'color': '#8844cc' },
-    'industrial-area': { 'color': '#e6c700' },
+    'HSG2 western parcel': { 'color': '#505a5f' },
+    'HSG2 eastern parcel': { 'color': '#505a5f' },
+    'BL6': { 'color': '#505a5f' },
+    'BL7': { 'color': '#505a5f' },
+    'BL8': { 'color': '#505a5f' },
+    'BL9': { 'color': '#505a5f' },
+    'BL10': { 'color': '#505a5f' },
+    'E07000134': { 'color': '#505a5f' },
+    'E10000002': { 'color': '#505a5f' },
+    'industrial-area': { 'color': '#d9bc00' },
   }
 
   function onEachFeature(feature, layer) {
     const heading = feature.properties["name"] ? feature.properties["name"]:feature.properties["reference"]
-    props = "<h3 class='govuk-heading-xs govuk-!-margin-bottom-1'>" + heading + "</h3>"
+    props = "<div class='app-map-popup'>"
+    props += "<h3 class='app-map-popup__heading govuk-!-margin-bottom-1'>" + heading + "</h3>"
+    props += "<div class='app-map-popup__content'>"
     props += "<p>Reference: <a href='/design-code-area/" + feature.properties["reference"] + "'>" + feature.properties["reference"] + "</a></p>"
     if ('design-code-rules' in feature.properties) {
       const rules = feature.properties['design-code-rules'].split(";")
       props += "<p>" + rules.length + " rules apply to this area.</p>"
     }
+    props += "</div>"
     if ('design-code' in feature.properties) {
-      props += "<p><a href='/design-code/" + feature.properties['design-code'] +"'>See design code where this area was defined.</p>"
+      props += "<div class='app-map-popup__footer'>"
+      props += "<p>See <a href='/design-code/" + feature.properties['design-code'] +"'>design code</a> where this area was defined.</p>"
+      props += "</div>"
     }
+    props += "</div>"
     layer.bindPopup(props)
   }
 
@@ -34,6 +42,7 @@
         return { "color": colours[feature.properties['design-code-area-type']].color };
       }
     }
+    return { "color": "#1d70b8" }
   }
 
   let map = L.map(AppMap.mapID).setView([AppMap.geography.centrePoint.lat, AppMap.geography.centrePoint.long], 6);

@@ -7776,3 +7776,68 @@
   color: #594d00; }
   .app-missing-item *:last-child {
     margin-bottom: 0; }
+
+.app-map-popup__heading {
+  margin-bottom: 5px; }
+
+.app-map-popup__content p,
+.app-map-popup__footer p {
+  margin-top: 5px;
+  margin-bottom: 5px; }
+
+.app-map-popup__content p:first-child,
+.app-map-popup__footer p:first-child {
+  margin-top: 0; }
+
+.app-map-popup__content p:last-child,
+.app-map-popup__footer p:last-child {
+  margin-bottom: 0; }
+
+.app-map-popup__footer {
+  margin-top: 5px;
+  padding: 5px 0;
+  border-top: 1px solid #b1b4b6; }
+
+.app-map__key {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 1.14286;
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0; }
+  @media print {
+    .app-map__key {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .app-map__key {
+      font-size: 16px;
+      font-size: 1rem;
+      line-height: 1.25; } }
+  @media print {
+    .app-map__key {
+      font-size: 14pt;
+      line-height: 1.2; } }
+
+.app-map__key__item {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding-left: 25px;
+  margin-right: 5px; }
+  .app-map__key__item:before {
+    display: inline-block;
+    position: absolute;
+    content: " ";
+    width: 20px;
+    height: 100%;
+    background: #1d70b8;
+    top: 0;
+    left: 0; }
+  .app-map__key__item--old:before {
+    background: #505a5f; }
+  .app-map__key__item--industrial:before {
+    background: #d9bc00; }

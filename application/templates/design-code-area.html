@@ -29,7 +29,8 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-xl">Design code area</h1>
+    <h1 class="govuk-caption-xl">Design code area</h1>
+    <h1 class="govuk-heading-xl">{{ design_code_area.name if design_code_area.name else design_code_area.reference }}</h1>
   </div>
 </div>
 
@@ -49,7 +50,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Name</dt>
-            <dd class="govuk-summary-list__value">{{design_code_area.name}}</dd>
+            <dd class="govuk-summary-list__value">{{design_code_area.name if design_code_area.name}}</dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation</dt>
@@ -59,7 +60,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key" style="vertical-align: top;">Geometry</dt>
+            <dt class="govuk-summary-list__key" style="vertical-align: top;">Area</dt>
             <dd class="govuk-summary-list__value">
             {% if design_code_area.geojson %}
             {%- set map_id = "map-123" %}
@@ -80,19 +81,16 @@
             {% endif %}
             </dd>
           </div>
-          <!-- <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Design code arestatus</dt>
-            <dd class="govuk-summary-list__value">{{design_code.json["design-code-status"]}}</dd>
-          </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Documentation URL</dt>
-            <dd class="govuk-summary-list__value"><a href="{{design_code.json["
-                document-url"]}}">{{design_code.json["document-url"]}}</a></dd>
-          </div> -->
+            <dt class="govuk-summary-list__key">Design code rules</dt>
+            <dd class="govuk-summary-list__value">{{design_code_area.design_code_rules if design_code_area.design_code_rules}}</dd>
+          </div>
         </dl>
       </div>
       <div class="app-summary-card__footer">
+        {% if design_code_area.entity %}
         <p class="govuk-body govuk-!-font-size-14">Entity <a href="https://www.planning.data.gov.uk/entity/{{ design_code_area['entity'] }}" class="govuk-link">{{ design_code_area['entity'] }}</a> from <a href="https://www.planning.data.gov.uk/" class="govuk-link govuk-link--text-colour">planning.data.gov.uk</a>.</p>
+        {% endif %}
       </div>
     </section>
   </div>
@@ -107,7 +105,7 @@
         <ul class="govuk-list govuk-!-font-size-16">
           <li>
             <a class="govuk-link"
-              href="{{url_for('base.design_code', entity=design_code.entity)}}">Design code</a>
+              href="{{url_for('base.design_code', reference=design_code.reference)}}">Design code</a>
           </li>
         </ul>
       </nav>
@@ -142,7 +140,7 @@
       <div class="app-summary-card__body">
         <p class="govuk-body">The following design codes apply to this area:</p>
         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-          <li><a href="{{url_for('base.design_code', entity=design_code.entity)}}" class="govuk-link">{{ design_code['reference'] }}</a> - {{ design_code['name'] }}</li>
+          <li><a href="{{url_for('base.design_code', reference=design_code.reference)}}" class="govuk-link">{{ design_code['reference'] }}</a> - {{ design_code['name'] }}</li>
         </ul>
       </div>
     </section>

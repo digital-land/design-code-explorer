@@ -7,7 +7,6 @@ from application.models import (
     DesignCodeArea,
     DesignCodeAreaOriginal,
     DesignCodeCharacteristic,
-    DesignCodeOriginal,
     DesignCodeRule,
     DesignCodeRuleCategory,
     DesignCodeStatus,
@@ -94,11 +93,13 @@ def design_code_rules():
     ).all()
 
     query = DesignCodeRule.query
+    query_params = {}
 
     if "organisation" in request.args:
         org_selection = request.args.getlist("organisation")
         filter_condition = DesignCodeRule.organisation_id.in_(org_selection)
         query = query.filter(filter_condition)
+        query_params["organisation"] = {"name": ""}
 
     if "characteristic" in request.args:
         characteristic_selection = request.args.getlist("characteristic")
@@ -229,26 +230,17 @@ def design_code_rule(reference):
     )
 
 
-@base.route("/design-code-area/<int:entity>")
-def design_code_area(entity):
-    dca = DesignCodeAreaOriginal.query.get(entity)
-    design_code = DesignCodeOriginal.query.filter(
-        DesignCodeOriginal.reference == dca.json["design-code"]
-    ).first()
-    organisation = Organisation.query.get(dca.organisation_entity)
+@base.route("/design-code-area/<reference>")
+def design_code_area(reference):
+    dca = DesignCodeArea.query.get(reference)
+    design_code = dca.design_code
+    organisation = dca.organisation
 
     # in development plan geography we do coords, bounding_box = _get_centre_and_bounds(development_plan.geography)
     # but this fails here because it doesn't have a 'features' key
     # coords, bounding_box = _get_centre_and_bounds(dca)
 
-    geojson = {"type": "FeatureCollection", "features": []}
-
-    # if org boundary need uncomment this
-    # for feature in organisation.geojson["features"]:
-    #     geojson["features"].append(feature)
-
-    geojson["features"].append(dca.geojson)
-    coords, bounding_box = _get_centre_and_bounds(geojson)
+    geojson, coords, bounding_box = _prepare_geojson_for_map([dca])
     return render_template(
         "design-code-area.html",
         design_code_area=dca,

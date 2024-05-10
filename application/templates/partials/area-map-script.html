@@ -13,7 +13,7 @@
   function onEachFeature(feature, layer) {
     const heading = feature.properties["name"] ? feature.properties["name"]:feature.properties["reference"]
     props = "<h3 class='govuk-heading-xs govuk-!-margin-bottom-1'>" + heading + "</h3>"
-    props += "<p>Reference: <a href='/design-code-area/" + feature.properties["entity"] + "'>" + feature.properties["reference"] + "</a></p>"
+    props += "<p>Reference: <a href='/design-code-area/" + feature.properties["reference"] + "'>" + feature.properties["reference"] + "</a></p>"
     if ('design-code-rules' in feature.properties) {
       const rules = feature.properties['design-code-rules'].split(";")
       props += "<p>" + rules.length + " rules apply to this area.</p>"

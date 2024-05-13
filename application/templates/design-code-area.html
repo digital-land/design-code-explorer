@@ -64,6 +64,10 @@
             <dd class="govuk-summary-list__value">{{design_code_area.name if design_code_area.name}}</dd>
           </div>
           <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Type</dt>
+            <dd class="govuk-summary-list__value">{{design_code_area.design_code_area_type if design_code_area.design_code_area_type}}</dd>
+          </div>
+          <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation</dt>
             <dd class="govuk-summary-list__value">
               <a class="govuk-link" href="https://www.planning.data.gov.uk/entity/{{organisation.organisation}}">{{ organisation.name

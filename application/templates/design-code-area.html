@@ -182,7 +182,10 @@
           {% endfor %}
         </ul>
         {% else %}
-        <p class="app-missing-item">No design code rules have been assigned to this area.</p>
+        <section class="app-missing-item">
+          <p>No design code rules have been assigned to this area.</p>
+          <p>The <a href="{{ url_for('base.design_code', reference=design_code.reference) }}">{{ design_code.name }}</a> has <a href="{{ url_for('base.design_code_rules', organisation=design_code.organisation_id) }}">{{design_code.design_code_rules|length}} rules</a> that COULD apply.</p>
+        </section>
         {% endif %}
 
       </div>

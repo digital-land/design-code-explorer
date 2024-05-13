@@ -7774,8 +7774,12 @@
   padding: 5px 10px 5px 15px;
   border-left: 4px solid #ffdd00;
   color: #594d00; }
+  .app-missing-item *:first-child {
+    margin-top: 5px; }
   .app-missing-item *:last-child {
     margin-bottom: 0; }
+  .app-missing-item a {
+    color: #403700; }
 
 .app-map-popup__heading {
   margin-bottom: 5px; }

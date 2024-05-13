@@ -83,8 +83,16 @@
   border-left: 4px solid govuk-colour("yellow");
   color: govuk-shade(govuk-colour("yellow"), 65%);
 
+  & *:first-child {
+    margin-top: 5px;
+  }
+
   & *:last-child {
     margin-bottom: 0;
+  }
+
+  a {
+    color: govuk-shade(govuk-colour("yellow"), 75%);
   }
 }
 

@@ -138,6 +138,15 @@
             <dd class="govuk-summary-list__value">{{design_code_rule.organisation_id}}</dd>
           </div>
           <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Document URL</dt>
+            <dd class="govuk-summary-list__value">
+              {% if design_code_rule.document_url %}
+              <a class="govuk-link"
+              href="{{design_code_rule.document_url}}">{{design_code_rule.document_url}}</a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Documentation URL</dt>
             <dd class="govuk-summary-list__value">
               {% if design_code_rule.documentation_url %}

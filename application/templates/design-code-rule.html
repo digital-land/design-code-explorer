@@ -109,7 +109,11 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Name</dt>
-            <dd class="govuk-summary-list__value">{{design_code_rule.name}}</dd>
+            <dd class="govuk-summary-list__value">{% if design_code_rule.name %}
+              {{design_code_rule.name}}
+            {% else %}
+              <span class="app-missing-item">No name provided</span>
+            {% endif %}</dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Description</dt>

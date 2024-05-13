@@ -3,9 +3,11 @@
   {% set checkboxesHTML %}
     {% set pa_checked = request.args.getlist("category") %}
     {% for category in design_code_rule_categories %}
+    {% set characteristic = category.design_code_charactersitic %}
     <div class="govuk-checkboxes__item">
       <input class="govuk-checkboxes__input" id="category-{{ category['reference'] }}" name="category" type="checkbox" value="{{ category['reference'] }}" {% if category['reference'] in pa_checked %}checked=checked{% endif %}>
-      <label class="govuk-label govuk-checkboxes__label" for="category-{{ category['reference'] }}">
+      <label class="govuk-label govuk-checkboxes__label app-grouped-item" for="category-{{ category['reference'] }}">
+        <span class="app-grouped-item__grouping">{{ characteristic['name'] }}</span>
         {{ category['name'] }}
       </label>
     </div>

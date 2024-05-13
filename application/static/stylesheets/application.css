@@ -7841,3 +7841,29 @@
     background: #505a5f; }
   .app-map__key__item--industrial:before {
     background: #d9bc00; }
+
+.app-grouped-item {
+  padding-top: 0; }
+
+.app-grouped-item__grouping {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  display: block;
+  color: #505a5f; }
+  @media print {
+    .app-grouped-item__grouping {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .app-grouped-item__grouping {
+      font-size: 14px;
+      font-size: 0.875rem;
+      line-height: 1.42857; } }
+  @media print {
+    .app-grouped-item__grouping {
+      font-size: 12pt;
+      line-height: 1.2; } }

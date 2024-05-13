@@ -147,3 +147,13 @@
     background: #d9bc00;
   }
 }
+
+.app-grouped-item {
+  padding-top: 0;
+}
+
+.app-grouped-item__grouping {
+  @include govuk-font($size: 14);
+  display: block;
+  color: $govuk-secondary-text-colour;
+}

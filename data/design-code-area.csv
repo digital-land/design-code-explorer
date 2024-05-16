@@ -7,7 +7,7 @@ entity,reference,prefix,name,description,geometry,point,organisation,design-code
 ,staples-corner-design-code,design-code-area,,,,,local-authority:BEN,,staples-corner-design-code,,,,,,,
 ,chatham-centre-design-code,design-code-area,Chatham Centre Design Code Area,,,,local-authority:MDW,,chatham-centre-design-code,,,,,,,
 ,chatham-centre-industrial-areas,design-code-area,Chatham Centre Industrial Areas,,,,local-authority:MDW,industrial-areas,chatham-centre-design-code,,,,,,,
-,chatham-town-centres,design-code-area,Chatham Centre Town Centres,,,,local-authority:MDW,town-city-centre,chatham-centre-design-code,,,,,,,
+,chatham-town-centres,design-code-area,Chatham Centre Town Centres,,,,local-authority:MDW,town‑city‑centre,chatham-centre-design-code,,,,,,,
 ,east-riding-design-code,design-code-area,East Riding Area,,,,local-authority:ERY,,east-riding-design-code,,,,,,,
 ,huncoat-design-code,design-code-area,,,,,local-authority:LAN,,huncoat-design-code,,,,,,,
 ,hemel-hempstead-paradise-design-code,design-code-area,,,,,local-authority:DAC,,hemel-hempstead-paradise-design-code,,,,,,,

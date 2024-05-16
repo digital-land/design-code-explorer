@@ -1,6 +1,6 @@
 import geopandas as gpd
 from flask import Blueprint, render_template, request, url_for
-from sqlalchemy import or_
+from sqlalchemy import asc, nullsfirst, or_
 
 from application.models import (
     DesignCode,
@@ -280,7 +280,9 @@ def design_code_area(reference):
 def map():
     geojson = {"type": "FeatureCollection", "features": []}
 
-    dcas = DesignCodeArea.query.all()
+    dcas = DesignCodeArea.query.order_by(
+        nullsfirst(asc(DesignCodeArea.design_code_area_type))
+    ).all()
     valid_design_code_areas = []
 
     for dca in dcas:
